@@ -547,7 +547,7 @@ if (globalThis.customElements && !customElements.get("gl-chart")) {
         this.#count = ["line", "area", "bar", "candlestick", "ohlc", "rsi", "macd"].includes(type) ? (data.candles ?? data.times ?? data.labels)?.length ?? 0 : 0;
         if (this.#window && this.#zoomable) o.window = this.#window;
         if (w && fluid.has(type)) {
-          o.width ??= w;
+          o.width ??= Math.max(w, 240); // before layout settles a chart can measure only a few pixels wide, too narrow to draw in
           if (type !== "rsi" && type !== "macd") o.height ??= Math.round(clamp(w * 0.6, 220, 360));
         }
         if (w && squares[type]) o.size ??= clamp(w, 280, squares[type]);
