@@ -6,6 +6,7 @@ import { bootScript } from "@/lib/theme-boot";
 import "./globals.css";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://glimmer-ui.com"),
   title: { default: "Glimmer — glass-and-glow UI for the web and Apple platforms", template: "%s — Glimmer" },
   description: "Component classes in plain CSS, with a matching SwiftUI package. Works alone or with Tailwind.",
 };

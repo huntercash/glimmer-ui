@@ -4,7 +4,7 @@ const frostNames = ["clear glass", "barely frosted", "lightly frosted", "frosted
 
 /** A prompt someone can paste into an AI coding agent to set Glimmer up with the theme they picked on this site. */
 export function buildPrompt({ frost, primary, secondary, light }: Theme): string {
-  return `Set up the Glimmer UI kit in this project and use it for all UI.
+  return `Set up the Glimmer UI kit in this project and use it for all UI. Docs and every component: https://glimmer-ui.com
 
 1. Install it (it is not on npm yet, so install from GitHub):
    npm i github:huntercash/glimmer-ui

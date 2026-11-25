@@ -7,6 +7,7 @@
 - **Visual regression tests.** None. Needs Playwright (not installed here) and a set of baseline screenshots.
 - **Accessibility audit.** Text on clear glass gets a halo, and accent-coloured text is darkened in the light theme, but contrast is not measured. Test with a screen reader.
 - **npm name.** `glimmer-ui` on npm is someone else's package, so publishing needs another name (a scope such as `@huntercash/glimmer-ui`, or a new name). Every import in the docs (`glimmer-ui/...`) follows the `name` in `package.json`, so they change with it. Until then the docs install from GitHub.
+- **SonarQube Cloud.** `.sonarcloud.properties` is in the repo, but the project still has to be imported at sonarcloud.io (organisation `huntercash`, project key `huntercash_glimmer-ui`, automatic analysis). The README badge shows nothing until then. No coverage report yet: that needs a CI step.
 - **Tag a release.** The Swift package instructions track `main` because no version tag exists.
 
 ## Known limits

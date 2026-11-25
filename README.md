@@ -1,5 +1,13 @@
 # Glimmer
 
+[![Docs](https://img.shields.io/badge/docs-glimmer--ui.com-f0a060)](https://glimmer-ui.com)
+[![Version](https://img.shields.io/github/package-json/v/huntercash/glimmer-ui)](package.json)
+[![Licence: MIT](https://img.shields.io/github/license/huntercash/glimmer-ui)](LICENSE)
+[![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=huntercash_glimmer-ui&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=huntercash_glimmer-ui)
+[![Swift: iOS 17 · macOS 14](https://img.shields.io/badge/SwiftUI-iOS%2017%20·%20macOS%2014-5b8def)](Package.swift)
+
+**Docs and live examples: [glimmer-ui.com](https://glimmer-ui.com)**
+
 Glass-and-glow UI for the web and Apple platforms. One set of design tokens, two packages in one repository:
 
 - **Web:** component classes in plain CSS, used like daisyUI (`btn btn-primary`). No build step. Works on its own or with Tailwind CSS v4.
