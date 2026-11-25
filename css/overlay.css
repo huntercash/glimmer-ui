@@ -8,7 +8,7 @@
   /* Keep closed overlays closed even when they also carry a display-setting class like .menu or .card. */
   :is([popover]:not(:popover-open), dialog:not([open])) { display: none; }
 
-  /* margin: auto is the browser's own centring for dialogs; stated here because CSS resets (Tailwind's included) zero it. */
+  /* Browsers centre dialogs with an automatic margin. It is set again here because CSS resets (Tailwind's included) zero it. */
   .modal { display: grid; gap: 0.75rem; width: min(28rem, calc(100vw - 2rem)); margin: auto; padding: 1.5rem; }
   .modal[open] { animation: gl-rise var(--gl-duration-base); }
   :is(.modal, .drawer)::backdrop { background: rgb(2 4 8 / 0.6); backdrop-filter: blur(6px); }

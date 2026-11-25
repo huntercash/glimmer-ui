@@ -19,9 +19,12 @@ export function utilities(css) {
   const found = new Map();
   // Rules inside @media and @supports only apply under that condition, so they are not part of a class's plain definition.
   const plain = bare(css).replace(/@(media|supports|keyframes)[^{]*\{(?:[^{}]*\{[^{}]*\})*[^{}]*\}/g, "");
-  for (const [, selector, body] of plain.matchAll(/(?<=[{};]|^)\s*((?:\.[a-z][a-z0-9-]*\s*,\s*)*\.[a-z][a-z0-9-]*)\s*\{([^{}]*)\}/gm))
-    for (const name of selector.split(",").map((s) => s.trim().slice(1)).filter((s) => s.includes("-")))
+  for (const [, selector, body] of plain.matchAll(/([^{};]+)\{([^{}]*)\}/g)) {
+    const parts = selector.split(",").map((s) => s.trim());
+    if (!parts.every((s) => /^\.[a-z][a-z0-9-]*$/.test(s))) continue; // only rules made of plain single classes
+    for (const name of parts.map((s) => s.slice(1)).filter((s) => s.includes("-")))
       found.set(name, [...(found.get(name) ?? []), body.trim().replace(/\s+/g, " ")]);
+  }
   return [...found].map(([name, bodies]) => `@utility ${name} { ${bodies.join(" ")} }`).join("\n");
 }
 

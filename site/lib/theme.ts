@@ -47,7 +47,9 @@ export function setTheme(patch: Partial<Theme>) {
 
 const subscribe = (listener: () => void) => {
   listeners.add(listener);
-  return () => void listeners.delete(listener);
+  return () => {
+    listeners.delete(listener);
+  };
 };
 
 /** The current theme, shared by the navbar controls and anything that describes it (the AI prompt). */

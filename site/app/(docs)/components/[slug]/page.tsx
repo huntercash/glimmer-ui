@@ -34,11 +34,11 @@ export default function ComponentPage({ params }: PageProps<"/components/[slug]"
 
 function Placeholder() {
   return (
-    <div className="stack-y gap-6" role="status" aria-label="Loading">
+    <output className="stack-y gap-6" aria-label="Loading">
       <div className="skeleton h-10 w-48" />
       <div className="skeleton h-5 w-2/3" />
       <div className="skeleton h-64" />
-    </div>
+    </output>
   );
 }
 

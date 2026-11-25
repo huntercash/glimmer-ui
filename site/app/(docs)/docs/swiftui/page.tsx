@@ -31,7 +31,7 @@ export default function SwiftUIPage() {
           ),
         ]}
       />
-      <div className="alert alert-warning" role="status">
+      <div className="alert alert-warning">
         Pre-release: there is no tagged version yet, so the manifest tracks the main branch.
       </div>
 

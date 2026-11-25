@@ -74,7 +74,7 @@ ${["primary", "secondary", "success", "warning", "danger"].map((c) => `  ${colou
 }
 `);
 
-const channel = (hex, i) => (parseInt(hex.slice(i, i + 2), 16) / 255).toFixed(3);
+const channel = (hex, i) => (Number.parseInt(hex.slice(i, i + 2), 16) / 255).toFixed(3);
 const swiftColor = (hex) =>
   `Color(.sRGB, red: ${channel(hex, 1)}, green: ${channel(hex, 3)}, blue: ${channel(hex, 5)}, opacity: ${hex.length === 9 ? channel(hex, 7) : 1})`;
 

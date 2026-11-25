@@ -46,14 +46,14 @@ struct GalleryContent: View {
 
             section("Buttons") {
                 HStack {
-                    Button("Default") {}.buttonStyle(.glimmer)
-                    Button("Primary") {}.buttonStyle(.glimmer(.primary))
-                    Button("Secondary") {}.buttonStyle(.glimmer(.secondary))
+                    Button("Default") { /* gallery demo: no action */ }.buttonStyle(.glimmer)
+                    Button("Primary") { /* gallery demo: no action */ }.buttonStyle(.glimmer(.primary))
+                    Button("Secondary") { /* gallery demo: no action */ }.buttonStyle(.glimmer(.secondary))
                 }
                 HStack {
-                    Button("Outline") {}.buttonStyle(.glimmer(.outline(Tokens.primary)))
-                    Button("Ghost") {}.buttonStyle(.glimmer(.ghost(Tokens.secondary)))
-                    Button("Disabled") {}.buttonStyle(.glimmer).disabled(true)
+                    Button("Outline") { /* gallery demo: no action */ }.buttonStyle(.glimmer(.outline(Tokens.primary)))
+                    Button("Ghost") { /* gallery demo: no action */ }.buttonStyle(.glimmer(.ghost(Tokens.secondary)))
+                    Button("Disabled") { /* gallery demo: no action */ }.buttonStyle(.glimmer).disabled(true)
                 }
             }
 

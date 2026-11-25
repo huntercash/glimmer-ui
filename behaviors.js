@@ -87,7 +87,7 @@ if (globalThis.document) {
 
   document.addEventListener("keydown", (e) => {
     // Escape dismisses a tooltip without moving focus; it comes back the next time the element is hovered or focused.
-    if (e.key === "Escape") document.querySelectorAll("[data-tip]:is(:hover, :focus)").forEach((el) => el.setAttribute("data-tip-off", ""));
+    if (e.key === "Escape") document.querySelectorAll("[data-tip]:is(:hover, :focus)").forEach((el) => (el.dataset.tipOff = ""));
 
     const tab = e.target.closest?.(TAB);
     if (e.defaultPrevented || !tab?.closest(cls("tabs"))) return; // already handled, by the React component for one

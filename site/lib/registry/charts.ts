@@ -7,7 +7,10 @@ const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug"];
 /** Sixty trading days of made-up prices: a fixed pseudo-random walk, so every build draws the same chart. */
 function candles() {
   let seed = 7, price = 182;
-  const random = () => ((seed = (seed * 1103515245 + 12345) % 2147483648) / 2147483648);
+  const random = () => {
+    seed = (seed * 1103515245 + 12345) % 2147483648;
+    return seed / 2147483648;
+  };
   const day = new Date(Date.UTC(2026, 9, 1));
   const out = [];
   while (out.length < 60) {
@@ -23,7 +26,10 @@ function candles() {
 /** Ninety days of readings with two weeks missing, to show that a time axis keeps the gap. */
 function readings() {
   let seed = 11, value = 52;
-  const random = () => ((seed = (seed * 1103515245 + 12345) % 2147483648) / 2147483648);
+  const random = () => {
+    seed = (seed * 1103515245 + 12345) % 2147483648;
+    return seed / 2147483648;
+  };
   const times: string[] = [], values: number[] = [];
   for (let i = 0; i < 90; i++) {
     value += (random() - 0.47) * 6;
@@ -122,7 +128,7 @@ export const interactive = (type: string, data: unknown, options?: Record<string
 
 /** One example from one data object: the live preview, the tag to copy, the function call and the React component. */
 function example(title: string, type: string, fn: string, data: unknown, options?: Record<string, unknown>, swift?: string): Example {
-  const pretty = JSON.stringify(data, null, 2).replace(/\[\s+([^[\]{}]*?)\s+\]/g, (_, inner: string) => `[${inner.replace(/\s+/g, " ")}]`);
+  const pretty = JSON.stringify(data, null, 2).replace(/\[([^[\]{}]*)\]/g, (_, inner: string) => `[${inner.trim().replace(/\s+/g, " ")}]`);
   return {
     title,
     layout: "block",

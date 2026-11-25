@@ -35,7 +35,7 @@ function SideNav() {
   );
 }
 
-export default function DocsLayout({ children }: { children: React.ReactNode }) {
+export default function DocsLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <div className="mx-auto grid max-w-6xl gap-x-10 gap-y-4 px-4 pt-8 md:grid-cols-[13rem_minmax(0,1fr)]">
       <aside className="hidden md:block">

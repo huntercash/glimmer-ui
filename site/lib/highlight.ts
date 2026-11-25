@@ -12,10 +12,10 @@ const keywords: Record<Exclude<Lang, "html">, string> = {
   js: "import|from|export|const|let|function|return|default|new|await|async",
 };
 const comment: Record<Exclude<Lang, "html">, string> = {
-  css: "\\/\\*[\\s\\S]*?\\*\\/",
-  swift: "\\/\\/.*$",
+  css: String.raw`\/\*[\s\S]*?\*\/`,
+  swift: String.raw`\/\/.*$`,
   bash: "#.*$",
-  js: "\\/\\/.*$",
+  js: String.raw`\/\/.*$`,
 };
 
 export function highlight(code: string, lang: Lang): string {
@@ -29,7 +29,7 @@ export function highlight(code: string, lang: Lang): string {
     );
   }
   // comment | string | keyword | call or at-rule
-  const pattern = new RegExp(`(${comment[lang]})|("[^"\\n]*"|'[^'\\n]*')|(@?\\b(?:${keywords[lang]})\\b)|(\\.[a-zA-Z]\\w*(?=\\())`, "gm");
+  const pattern = new RegExp(String.raw`(${comment[lang]})|("[^"\n]*"|'[^'\n]*')|(@?\b(?:${keywords[lang]})\b)|(\.[a-zA-Z]\w*(?=\())`, "gm");
   return text.replace(pattern, (m, com, str, kw, fn) =>
     com ? span("com", com) : str ? span("str", str) : kw ? span("kw", kw) : fn ? span("fn", fn) : m,
   );

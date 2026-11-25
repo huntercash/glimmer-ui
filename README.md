@@ -3,10 +3,17 @@
 [![Docs](https://img.shields.io/badge/docs-glimmer--ui.com-f0a060)](https://glimmer-ui.com)
 [![Version](https://img.shields.io/github/package-json/v/huntercash/glimmer-ui)](package.json)
 [![Licence: MIT](https://img.shields.io/github/license/huntercash/glimmer-ui)](LICENSE)
+[![Tailwind CSS v4](https://img.shields.io/badge/Tailwind_CSS-v4-38bdf8)](https://glimmer-ui.com/docs/install)
+[![SwiftUI: iOS 17 · macOS 14](https://img.shields.io/badge/SwiftUI-iOS_17_·_macOS_14-5b8def)](Package.swift)
 [![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=huntercash_glimmer-ui&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=huntercash_glimmer-ui)
-[![Swift: iOS 17 · macOS 14](https://img.shields.io/badge/SwiftUI-iOS%2017%20·%20macOS%2014-5b8def)](Package.swift)
+[![Maintainability](https://sonarcloud.io/api/project_badges/measure?project=huntercash_glimmer-ui&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=huntercash_glimmer-ui)
+[![Security](https://sonarcloud.io/api/project_badges/measure?project=huntercash_glimmer-ui&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=huntercash_glimmer-ui)
+[![GitHub stars](https://img.shields.io/github/stars/huntercash/glimmer-ui?style=flat)](https://github.com/huntercash/glimmer-ui/stargazers)
+[![Buy me a coffee](https://img.shields.io/badge/buy_me_a_coffee-PayPal-0070ba?logo=paypal&logoColor=white)](https://paypal.me/huntercash)
 
 **Docs and live examples: [glimmer-ui.com](https://glimmer-ui.com)**
+
+![Glimmer's home page in the dark theme: a glass navbar, the headline "Glass that glows." and glowing buttons](.github/screenshots/hero-dark.jpg)
 
 Glass-and-glow UI for the web and Apple platforms. One set of design tokens, two packages in one repository:
 
@@ -16,6 +23,12 @@ Glass-and-glow UI for the web and Apple platforms. One set of design tokens, two
 78 components, including 15 chart types, a frost level you can turn from clear glass to milky, and light and dark themes.
 
 > **Pre-release.** Not on npm yet, no version history, and only tested in Chromium so far. See [TODO.md](TODO.md) for what is open.
+
+| Light theme, frosted glass | Every component, live |
+| --- | --- |
+| ![The same page in the light theme with the frost turned up](.github/screenshots/hero-light.jpg) | ![The Components page: buttons in five colours and a joined button group](.github/screenshots/components.jpg) |
+
+![A candlestick chart with 5- and 20-day moving averages and volume bars](.github/screenshots/chart.jpg)
 
 ## Install (web)
 

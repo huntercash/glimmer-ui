@@ -4,9 +4,9 @@
 // behaviors.js, so <gl-chart> and toast() work.
 import { createElement as h, Fragment, useEffect, useId, useRef, useState } from "react";
 import { chart } from "./charts.js";
-import { config, toast } from "./behaviors.js";
+import { config } from "./behaviors.js";
 
-export { config, toast };
+export { config, toast } from "./behaviors.js";
 
 /** A chart. It is drawn on the server like any other markup, then becomes interactive in the browser:
     <Chart type="line" data={{ labels, series }} options={{ smooth: true }} zoom /> */

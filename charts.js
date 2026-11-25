@@ -296,7 +296,11 @@ export function chordDiagram({ names, matrix }, o = {}) {
   let a = 0;
   const groups = matrix.map((row) => {
     const start = a;
-    const cells = row.map((v) => [a, (a += v * k)]);
+    const cells = row.map((v) => {
+      const from = a;
+      a += v * k;
+      return [from, a];
+    });
     a += pad;
     return { start, end: a - pad, cells };
   });
@@ -349,7 +353,8 @@ export function ema(values, n) {
   let prev = null;
   return values.map((v, i) => {
     if (i < n - 1) return null;
-    return (prev = i === n - 1 ? sum(values.slice(0, n)) / n : v * k + prev * (1 - k));
+    prev = i === n - 1 ? sum(values.slice(0, n)) / n : v * k + prev * (1 - k);
+    return prev;
   });
 }
 
@@ -398,7 +403,8 @@ export function heikinAshi(candles) {
   return candles.map((k) => {
     const close = (k.open + k.high + k.low + k.close) / 4;
     const open = prev ? (prev.open + prev.close) / 2 : (k.open + k.close) / 2;
-    return (prev = { ...k, open, close, high: Math.max(k.high, open, close), low: Math.min(k.low, open, close) });
+    prev = { ...k, open, close, high: Math.max(k.high, open, close), low: Math.min(k.low, open, close) };
+    return prev;
   });
 }
 
@@ -571,7 +577,8 @@ if (globalThis.customElements && !customElements.get("gl-chart")) {
     #show(i) {
       const svg = this.firstElementChild, tip = this.lastElementChild, cross = svg?.lastElementChild;
       if (!tip?.classList.contains("chart-tip")) return;
-      const mark = this.#marks[(this.#at = i)];
+      this.#at = i;
+      const mark = this.#marks[i];
       tip.hidden = !mark;
       cross.setAttribute("visibility", mark ? "visible" : "hidden");
       if (!mark) return;

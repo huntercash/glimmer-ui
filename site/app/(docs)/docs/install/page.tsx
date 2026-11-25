@@ -16,7 +16,7 @@ export default function InstallPage() {
         things CSS cannot do.
       </p>
 
-      <div className="alert alert-warning" role="status">
+      <div className="alert alert-warning">
         Pre-release: Glimmer is not on npm yet, so install it from GitHub as shown below. Do not run <code>npm i glimmer-ui</code>: that name on
         npm belongs to an unrelated package.
       </div>

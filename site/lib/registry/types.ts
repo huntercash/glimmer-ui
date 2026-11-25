@@ -53,7 +53,7 @@ export const colorNames = ["primary", "secondary", "success", "warning", "danger
 export function html(strings: TemplateStringsArray, ...values: string[]): string {
   const raw = strings.reduce((out, s, i) => out + s + (values[i] ?? ""), "");
   const lines = raw.replace(/^\n/, "").trimEnd().split("\n");
-  const indent = Math.min(...lines.filter((l) => l.trim()).map((l) => l.match(/^ */)![0].length));
+  const indent = Math.min(...lines.filter((l) => l.trim()).map((l) => /^ */.exec(l)![0].length));
   return lines.map((l) => l.slice(indent)).join("\n");
 }
 

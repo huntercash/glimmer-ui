@@ -4,7 +4,7 @@ import { useState } from "react";
 import type { CodeTab } from "@/lib/highlight";
 
 /** Code in a Glimmer mockup-code frame, with a copy button and tabs when there is more than one snippet. */
-export function CodeBox({ tabs, wrap }: { tabs: CodeTab[]; /** Wrap long lines instead of scrolling sideways: for prose such as prompts. */ wrap?: boolean }) {
+export function CodeBox({ tabs, wrap }: Readonly<{ tabs: CodeTab[]; /** Wrap long lines instead of scrolling sideways: for prose such as prompts. */ wrap?: boolean }>) {
   const [active, setActive] = useState(0);
   const [copied, setCopied] = useState(false);
   const current = tabs[active];
