@@ -1,0 +1,334 @@
+@layer components {
+  .card { display: flex; flex-direction: column; gap: 0.75rem; padding: 1.25rem; }
+  .card > img:first-child {
+    width: calc(100% + 2.5rem);
+    max-width: none;
+    margin: -1.25rem -1.25rem 0;
+    border-radius: calc(var(--gl-radius-lg) - 1px) calc(var(--gl-radius-lg) - 1px) 0 0;
+  }
+  .card-title { font-size: 1.0625rem; font-weight: 600; letter-spacing: -0.01em; }
+  .card-actions { display: flex; justify-content: flex-end; gap: 0.5rem; margin-top: auto; padding-top: 0.5rem; }
+
+  .badge {
+    --c: var(--gl-muted);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    height: 1.375rem;
+    padding-inline: 0.5rem;
+    border: 1px solid color-mix(in oklab, var(--c) 30%, transparent);
+    border-radius: var(--gl-radius-sm);
+    background: color-mix(in oklab, var(--c) 14%, transparent);
+    color: color-mix(in oklab, var(--c), var(--gl-content) var(--gl-ink));
+    font: 500 0.6875rem/1 var(--gl-mono);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    text-shadow: none;
+  }
+
+  /* status — a lit dot. <span class="status status-success"></span> */
+  .status {
+    --c: var(--gl-success);
+    display: inline-block;
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    background: var(--c);
+    box-shadow: 0 0 0 3px color-mix(in oklab, var(--c) 20%, transparent), 0 0 12px var(--c);
+  }
+
+  /* avatar — works on <img> or on a <span> holding initials. */
+  .avatar {
+    --c: var(--gl-primary);
+    flex: none;
+    display: inline-grid;
+    place-items: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border: 1px solid var(--gl-border);
+    border-radius: 32%;
+    background: linear-gradient(135deg, var(--gl-primary), var(--gl-secondary));
+    color: var(--gl-on-c);
+    font-size: 0.875rem;
+    font-weight: 600;
+    object-fit: cover;
+  }
+  .avatar-sm { width: 2rem; height: 2rem; font-size: 0.75rem; }
+  .avatar-lg { width: 3.5rem; height: 3.5rem; font-size: 1.125rem; }
+  .avatar-group { display: inline-flex; }
+  .avatar-group > * { box-shadow: 0 0 0 2px var(--gl-base); }
+  .avatar-group > * + * { margin-inline-start: -0.5rem; }
+
+  .alert {
+    --px: 0%;
+    --py: 50%;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 0.875rem 1rem;
+    border-color: color-mix(in oklab, var(--c) 35%, var(--gl-border));
+    border-radius: var(--gl-radius-md);
+    font-size: 0.875rem;
+  }
+
+  /* toast — fixed stack for alerts. Add toast-top and/or toast-start to move it.
+     From script: import { toast } from "glimmer-ui/behaviors.js"; toast("Saved", { type: "success" }); */
+  .toast {
+    --frost-min: 3;
+    position: fixed;
+    inset-block: auto 1rem;
+    inset-inline: auto 1rem;
+    z-index: 50;
+    display: grid;
+    gap: 0.5rem;
+    width: min(24rem, calc(100vw - 2rem));
+  }
+  .toast > * { animation: gl-rise var(--gl-duration-base); }
+  .toast-top { top: 1rem; bottom: auto; }
+  .toast-start { inset-inline: 1rem auto; }
+
+  /* tooltip — <button data-tip="Copy link"> */
+  [data-tip] { position: relative; }
+  [data-tip]::after {
+    content: attr(data-tip);
+    position: absolute;
+    bottom: calc(100% + 0.5rem);
+    left: 50%;
+    z-index: 40;
+    translate: -50% 0.25rem;
+    padding: 0.3rem 0.55rem;
+    border: 1px solid var(--gl-border);
+    border-radius: var(--gl-radius-sm);
+    background: var(--gl-surface);
+    color: var(--gl-content);
+    font: 500 0.75rem/1.2 var(--gl-font);
+    letter-spacing: 0;
+    text-transform: none;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--gl-duration-fast), translate var(--gl-duration-fast);
+  }
+  [data-tip]:is(:hover, :focus)::after { opacity: 1; translate: -50% 0; }
+  /* behaviors.js sets data-tip-off when Escape is pressed, so a tooltip can be dismissed without moving away. */
+  [data-tip][data-tip-off]:is(:hover, :focus)::after { opacity: 0; }
+
+  /* progress — native <progress class="progress" value="40" max="100"> */
+  .progress {
+    --c: var(--gl-primary);
+    appearance: none;
+    display: block;
+    width: 100%;
+    height: 0.5rem;
+    overflow: hidden;
+    border: 0;
+    border-radius: 9999px;
+    background: rgb(var(--gl-tint) / 0.1);
+  }
+  .progress::-webkit-progress-bar { background: transparent; }
+  .progress::-webkit-progress-value { border-radius: 9999px; background: linear-gradient(90deg, color-mix(in oklab, var(--c) 55%, transparent), var(--c)); }
+  .progress::-moz-progress-bar { border-radius: 9999px; background: linear-gradient(90deg, color-mix(in oklab, var(--c) 55%, transparent), var(--c)); }
+
+  /* radial — <div class="radial" style="--value:72" role="progressbar" aria-valuenow="72">72%</div> */
+  .radial {
+    --c: var(--gl-primary);
+    --value: 0;
+    display: inline-grid;
+    place-items: center;
+    width: 4rem;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background:
+      radial-gradient(closest-side, var(--gl-surface) 82%, transparent 84%),
+      conic-gradient(var(--c) calc(var(--value) * 1%), rgb(var(--gl-tint) / 0.1) 0);
+    font: 600 0.8125rem var(--gl-mono);
+  }
+
+  .spinner, .btn[aria-busy="true"]::before {
+    content: "";
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    border: 2px solid currentColor;
+    border-right-color: transparent;
+    border-radius: 50%;
+    animation: gl-spin 0.6s linear infinite;
+  }
+
+  /* orb — loading state: a dark sphere with a rim light orbiting it.
+     <div class="orb" role="status"><span class="shimmer">Generating</span></div>
+     Icon-sized: <span class="orb orb-sm" role="status" aria-label="Loading"></span> */
+  .orb {
+    --c: var(--gl-primary);
+    --s: 9rem;
+    flex: none;
+    position: relative;
+    isolation: isolate;
+    display: inline-grid;
+    place-items: center;
+    width: var(--s);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    box-shadow: 0 0 calc(var(--s) * 0.45) calc(var(--s) * -0.14) var(--c);
+    font-size: calc(var(--s) * 0.12);
+    vertical-align: middle;
+  }
+  .orb::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    background:
+      /* the unlit side, pushed off-centre so a crescent of the layer below shows */
+      radial-gradient(56% 56% at 68% 50%, var(--gl-base) 40%, transparent),
+      radial-gradient(closest-side, color-mix(in oklab, var(--gl-secondary) 50%, var(--gl-base)) 30%, var(--c) 78%, color-mix(in oklab, var(--c), white 65%));
+    animation: gl-spin 3s linear infinite;
+  }
+  .orb-sm { --s: 1.25rem; }
+
+  /* shimmer — text with a highlight sweeping through it. Works anywhere, not just in an orb. */
+  .shimmer {
+    background: linear-gradient(90deg, var(--gl-muted) 40%, #fff 50%, var(--gl-muted) 60%) 0 0 / 200% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: gl-shimmer 2s linear infinite;
+  }
+
+  /* flare — a horizontal streak of light with a bright core, like a lens flare.
+     <div class="flare"></div> or <hr class="flare">. Set its height to scale it; --x moves the core. */
+  .flare {
+    --c: var(--gl-primary);
+    --x: 50%;
+    --line: linear-gradient(90deg, transparent, var(--c) calc(var(--x) - 22%), #fff var(--x), var(--c) calc(var(--x) + 22%), transparent);
+    display: block;
+    width: 100%;
+    height: 3rem;
+    margin: 0;
+    border: 0;
+    background:
+      radial-gradient(closest-side circle at var(--x) 50%, #fff 8%, color-mix(in oklab, var(--c), white 45%) 22%, color-mix(in oklab, var(--c) 45%, transparent) 50%, transparent),
+      var(--line) 0 50% / 100% 2px no-repeat,
+      var(--line) 0 34% / 100% 1px no-repeat,
+      var(--line) 0 66% / 100% 1px no-repeat,
+      radial-gradient(45% 50% at var(--x) 50%, color-mix(in oklab, var(--c) 30%, transparent), transparent);
+    mix-blend-mode: screen;
+    pointer-events: none;
+  }
+
+  .skeleton {
+    min-height: 1rem;
+    border-radius: var(--gl-radius-sm);
+    background: linear-gradient(90deg, rgb(var(--gl-tint) / 0.06) 25%, rgb(var(--gl-tint) / 0.14) 50%, rgb(var(--gl-tint) / 0.06) 75%) 0 0 / 200% 100%;
+    animation: gl-shimmer 1.4s linear infinite;
+  }
+
+  .stat { display: grid; gap: 0.375rem; padding: 1rem 1.25rem; }
+  .stat-value { font-size: 1.875rem; font-weight: 600; line-height: 1.1; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+  .stat-desc { color: var(--gl-muted); font-size: 0.8125rem; }
+
+  /* table — wrap in .glass for a glass panel. */
+  .table { width: 100%; border-collapse: collapse; font-size: 0.875rem; text-align: start; }
+  .table th {
+    padding: 0.75rem 1rem;
+    color: var(--gl-muted);
+    font: 500 0.6875rem var(--gl-mono);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .table td { padding: 0.75rem 1rem; border-top: 1px solid rgb(var(--gl-tint) / 0.07); }
+  .table tbody tr:hover { background: rgb(var(--gl-tint) / 0.04); }
+
+  /* divider — empty for a plain rule, or put a word in it. */
+  .divider { display: flex; align-items: center; gap: 0.75rem; margin-block: 1rem; color: var(--gl-muted); font-size: 0.75rem; }
+  .divider::before, .divider::after { content: ""; flex: 1; height: 1px; background: var(--gl-border); }
+  .divider:empty { gap: 0; }
+
+  /* accordion — <details class="accordion"><summary>Title</summary><p>Body</p></details> */
+  .accordion { border-bottom: 1px solid var(--gl-border); }
+  .accordion > summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-block: 0.875rem;
+    font-weight: 500;
+    list-style: none;
+    cursor: pointer;
+  }
+  .accordion > summary::-webkit-details-marker { display: none; }
+  .accordion > summary::after { content: "+"; color: var(--gl-muted); font: 1.125rem var(--gl-mono); transition: rotate var(--gl-duration-base); }
+  .accordion[open] > summary::after { rotate: 45deg; }
+  .accordion > :not(summary) { margin: 0; padding-bottom: 0.875rem; color: var(--gl-muted); font-size: 0.875rem; }
+
+  /* chat — <div class="chat"><p class="bubble">Hi</p><p class="bubble bubble-end">Hey</p></div> */
+  .chat { display: grid; gap: 0.5rem; }
+  .bubble {
+    justify-self: start;
+    max-width: 75%;
+    margin: 0;
+    padding: 0.625rem 0.875rem;
+    border: 1px solid var(--gl-border);
+    border-radius: 1.125rem;
+    border-end-start-radius: 0.25rem;
+    background: rgb(var(--gl-tint) / 0.08);
+    font-size: 0.9rem;
+  }
+  .bubble-end {
+    justify-self: end;
+    border-color: transparent;
+    border-radius: 1.125rem;
+    border-end-end-radius: 0.25rem;
+    --c: var(--gl-primary);
+    background: linear-gradient(color-mix(in oklab, var(--c), white 20%), var(--c));
+    color: var(--gl-on-c);
+  }
+
+  /* list — rows with hairlines between them. Put a .meta last in a row to push it to the end.
+     <ul class="list"><li>Photos <span class="meta">2,418</span></li></ul> */
+  .list { margin: 0; padding: 0; font-size: 0.875rem; list-style: none; }
+  .list > li { display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1rem; }
+  .list > li + li { border-top: 1px solid rgb(var(--gl-tint) / 0.07); }
+  .list > li > .meta { margin-inline-start: auto; }
+  .list > [hidden] { display: none; }
+
+  /* timeline — <ol class="timeline"><li data-done><span class="meta">09:40</span> Shipped</li><li>Next</li></ol> */
+  .timeline { display: grid; margin: 0; padding: 0; font-size: 0.875rem; list-style: none; }
+  .timeline > li { --c: var(--gl-primary); position: relative; display: grid; gap: 0.125rem; padding-block-end: 1.5rem; padding-inline-start: 1.75rem; color: var(--gl-muted); }
+  .timeline > li:last-child { padding-block-end: 0; }
+  .timeline > li::before {
+    content: "";
+    position: absolute;
+    top: 0.3rem;
+    inset-inline-start: 0;
+    width: 0.625rem;
+    height: 0.625rem;
+    border: 1px solid rgb(var(--gl-tint) / 0.3);
+    border-radius: 50%;
+    background: var(--gl-surface);
+  }
+  .timeline > li:not(:last-child)::after { content: ""; position: absolute; top: 1.125rem; bottom: -0.125rem; inset-inline-start: calc(0.3125rem - 0.5px); width: 1px; background: var(--gl-border); }
+  .timeline > [data-done] { color: var(--gl-content); }
+  .timeline > [data-done]::before { border-color: transparent; background: var(--c); box-shadow: 0 0 0 3px color-mix(in oklab, var(--c) 20%, transparent), 0 0 12px var(--c); }
+  .timeline > [data-done]:not(:last-child)::after { background: color-mix(in oklab, var(--c) 60%, transparent); }
+
+  /* indicator — pin something to a corner. <div class="indicator"><span class="indicator-item badge">3</span><button class="btn">Inbox</button></div> */
+  .indicator { position: relative; display: inline-flex; }
+  .indicator-item { position: absolute; top: 0; inset-inline-end: 0; z-index: 1; translate: calc(40% * var(--gl-dir, 1)) -40%; }
+  .indicator-start { inset-inline: 0 auto; translate: calc(-40% * var(--gl-dir, 1)) -40%; }
+  .indicator-bottom { top: auto; bottom: 0; translate: calc(40% * var(--gl-dir, 1)) 40%; }
+  .indicator-bottom.indicator-start { translate: calc(-40% * var(--gl-dir, 1)) 40%; }
+
+  /* stack — pile children on top of each other, first one in front. */
+  .stack { display: inline-grid; }
+  .stack > * { grid-area: 1 / 1; z-index: 3; transition: translate var(--gl-duration-base), scale var(--gl-duration-base), opacity var(--gl-duration-base); }
+  .stack > :nth-child(2) { z-index: 2; translate: 0 0.75rem; scale: 0.94; opacity: 0.75; }
+  .stack > :nth-child(n + 3) { z-index: 1; translate: 0 1.5rem; scale: 0.88; opacity: 0.5; }
+
+  /* carousel — a row you swipe through, snapping to each child. Give it tabindex="0" so arrow keys scroll it.
+     With behaviors.js, buttons outside it turn the page:
+     <button class="btn btn-circle" data-carousel="prev" aria-controls="carousel-id" aria-label="Previous">‹</button> */
+  .carousel { display: flex; gap: 1rem; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scrollbar-width: none; }
+  .carousel > * { flex: none; scroll-snap-align: center; }
+}

@@ -1,0 +1,38 @@
+@layer components {
+  /* All three ride on native elements, so open/close, focus trapping, Esc and light-dismiss are the browser's job.
+
+     modal   — <dialog class="modal" id="m">…</dialog>           open: m.showModal()  close: <form method="dialog">
+     drawer  — <dialog class="drawer" id="d">…</dialog>          same API, pinned to the trailing edge (right, or left in right-to-left pages)
+     popover — <button popovertarget="p">Open</button>
+               <ul popover id="p" class="popover menu">…</ul>    anchors itself under its button (dropdown menus) */
+  /* Keep closed overlays closed even when they also carry a display-setting class like .menu or .card. */
+  :is([popover]:not(:popover-open), dialog:not([open])) { display: none; }
+
+  /* margin: auto is the browser's own centring for dialogs; stated here because CSS resets (Tailwind's included) zero it. */
+  .modal { display: grid; gap: 0.75rem; width: min(28rem, calc(100vw - 2rem)); margin: auto; padding: 1.5rem; }
+  .modal[open] { animation: gl-rise var(--gl-duration-base); }
+  :is(.modal, .drawer)::backdrop { background: rgb(2 4 8 / 0.6); backdrop-filter: blur(6px); }
+
+  .drawer {
+    width: min(22rem, 90vw);
+    height: 100dvh;
+    max-height: none;
+    margin: 0;
+    margin-inline-start: auto;
+    padding: 1.5rem;
+    border-radius: 0;
+    border-start-start-radius: var(--gl-radius-lg);
+    border-end-start-radius: var(--gl-radius-lg);
+  }
+  .drawer[open] { animation: gl-slide var(--gl-duration-base); }
+
+  .popover {
+    --frost-min: 3;
+    inset: auto;
+    min-width: 12rem;
+    margin: 0.5rem 0;
+    position-area: block-end span-inline-end;
+    position-try-fallbacks: flip-block, flip-inline;
+  }
+  .popover:popover-open { animation: gl-rise var(--gl-duration-fast); }
+}

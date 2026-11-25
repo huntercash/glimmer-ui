@@ -1,0 +1,36 @@
+@layer components {
+  /* More contrast: no clear or barely-frosted glass, and stronger rims. */
+  @media (prefers-contrast: more) {
+    :root { --frost-min: 4; --gl-rim: 0.7; }
+    .popover, .toast { --frost-min: 4; }
+  }
+
+  /* Less transparency: panels become almost solid. */
+  @media (prefers-reduced-transparency: reduce) {
+    :root, .popover, .toast { --frost-min: 5; }
+  }
+
+  /* Print: tokens.css switches to the light theme; here the effects that waste ink or mean nothing on paper go. */
+  @media print {
+    :root, .popover, .toast { --frost-min: 5; }
+    *, ::before, ::after { box-shadow: none !important; text-shadow: none !important; backdrop-filter: none !important; animation: none !important; }
+    .dock, .toast, .dotgrid::before, .streaks::after, .aura::before, .aura::after, .flare { display: none !important; }
+  }
+
+  /* Forced colours (Windows high contrast): the system paints over backgrounds and shadows, so any state that was
+     shown only by a fill gets a system colour or an outline instead. */
+  @media (forced-colors: active) {
+    :is(.checkbox, .radio, .toggle):checked { background: Highlight; }
+    .checkbox:checked::before, .radio:checked::before { background: HighlightText; }
+    .toggle { border-color: ButtonText; }
+    .toggle::before { background: ButtonText; forced-color-adjust: none; }
+    .toggle:checked::before { background: HighlightText; }
+    .progress::-webkit-progress-value { background: Highlight; }
+    .progress::-moz-progress-bar { background: Highlight; }
+    .status, .rating > input, .radial, .orb::before { forced-color-adjust: none; }
+    .tab:is([aria-selected="true"], [aria-current]), .dock > [aria-current], .menu > li > [aria-current] { outline: 2px solid Highlight; outline-offset: -2px; }
+    .step[data-done]::before, .timeline > [data-done]::before { border-color: Highlight; background: Highlight; color: HighlightText; }
+    .btn-primary, .btn-secondary, .btn-success, .btn-warning, .btn-danger { border-color: ButtonText; }
+    .alert, .card, .glass, .stat, .navbar, .modal, .drawer, .popover { border-color: CanvasText; }
+  }
+}

@@ -1,0 +1,111 @@
+@layer components {
+  /* Styling for the SVG that charts.js produces. Colours come from the kit: series 1–5 are the five accent
+     tokens and 6–8 are blends of them. Override --chart-1 … --chart-8 to recolour. */
+  gl-chart { display: block; position: relative; }
+  gl-chart:focus-visible { outline: 2px solid var(--gl-primary); outline-offset: 4px; border-radius: var(--gl-radius-sm); }
+  /* Zoomable charts take sideways drags and pinches themselves; an up-and-down swipe still scrolls the page. */
+  gl-chart[zoom] { touch-action: pan-y; user-select: none; cursor: grab; }
+
+  /* The crosshair and its readout, added by <gl-chart>. */
+  .chart-cross { stroke: rgb(var(--gl-tint) / 0.4); stroke-dasharray: 3 3; pointer-events: none; }
+  .chart-tip {
+    position: absolute;
+    top: 0;
+    z-index: 1;
+    padding: 0.375rem 0.625rem;
+    border: 1px solid var(--gl-border);
+    border-radius: var(--gl-radius-sm);
+    background: color-mix(in oklab, var(--gl-surface) 88%, transparent);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 8px 24px -8px rgb(0 0 0 / var(--gl-shadow));
+    color: var(--gl-content);
+    font: 11px/1.5 var(--gl-mono);
+    text-shadow: none;
+    width: max-content;
+    max-width: min(17rem, 100%);
+    white-space: pre-wrap;
+    pointer-events: none;
+  }
+  .chart {
+    --chart-1: var(--gl-primary);
+    --chart-2: var(--gl-secondary);
+    --chart-3: var(--gl-success);
+    --chart-4: var(--gl-warning);
+    --chart-5: var(--gl-danger);
+    --chart-6: color-mix(in oklab, var(--gl-secondary), var(--gl-danger));
+    --chart-7: color-mix(in oklab, var(--gl-secondary), var(--gl-success));
+    --chart-8: color-mix(in oklab, var(--gl-primary), var(--gl-danger));
+    display: block;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+    font: 11px var(--gl-mono);
+  }
+  .chart .s0 { --c: var(--chart-1); }
+  .chart .s1 { --c: var(--chart-2); }
+  .chart .s2 { --c: var(--chart-3); }
+  .chart .s3 { --c: var(--chart-4); }
+  .chart .s4 { --c: var(--chart-5); }
+  .chart .s5 { --c: var(--chart-6); }
+  .chart .s6 { --c: var(--chart-7); }
+  .chart .s7 { --c: var(--chart-8); }
+
+  .chart text { fill: var(--gl-muted); }
+  .chart-grid line { stroke: rgb(var(--gl-tint) / 0.08); }
+  .chart-legend circle { fill: var(--c); filter: drop-shadow(0 0 4px var(--c)); }
+
+  /* Lines and points carry the glow. */
+  .chart-line { fill: none; stroke: var(--c); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; filter: drop-shadow(0 0 6px color-mix(in oklab, var(--c) 70%, transparent)); }
+  .chart-area { fill: var(--c); fill-opacity: 0.14; }
+  .chart-dot { fill: var(--c); stroke: var(--gl-base); stroke-width: 1.5; filter: drop-shadow(0 0 5px var(--c)); }
+  .chart-type-scatter .chart-dot { fill-opacity: 0.75; stroke: none; }
+  .chart-dot-quiet { opacity: 0; }
+
+  .chart-bar { fill: var(--c); fill-opacity: 0.85; filter: drop-shadow(0 0 8px color-mix(in oklab, var(--c) 45%, transparent)); transition: fill-opacity var(--gl-duration-fast); }
+  .chart-bar:hover, .chart-slice:hover, .chart-cell:hover { fill-opacity: 1; }
+
+  .chart-box line { stroke: var(--c); stroke-width: 1.5; }
+  .chart-box rect { fill: color-mix(in oklab, var(--c) 22%, transparent); stroke: var(--c); stroke-width: 1.5; }
+  .chart-box .chart-median { stroke: var(--gl-content); stroke-width: 2; }
+
+  .chart-cell { fill: var(--c); }
+  .chart .chart-value { fill: var(--gl-content); }
+
+  .chart-slice { fill: var(--c); fill-opacity: 0.88; stroke: var(--gl-base); stroke-width: 2; transition: fill-opacity var(--gl-duration-fast); }
+  .chart .chart-center { fill: var(--gl-content); font: 600 20px var(--gl-font); }
+
+  /* Radar. */
+  .chart-grid polygon { fill: none; stroke: rgb(var(--gl-tint) / 0.08); }
+  .chart-shape { fill: var(--c); fill-opacity: 0.14; stroke: var(--c); stroke-width: 2; stroke-linejoin: round; filter: drop-shadow(0 0 6px color-mix(in oklab, var(--c) 60%, transparent)); }
+
+  /* Stock charts: green when the price rose, red when it fell. Rising candles are also hollow, so the two differ
+     in shape as well as colour. Set --chart-up and --chart-down to change the pair (blue and orange, say). */
+  .chart-up { --c: var(--chart-up, var(--gl-success)); }
+  .chart-down { --c: var(--chart-down, var(--gl-danger)); }
+  .chart-candle line { stroke: var(--c); stroke-width: 1.25; }
+  .chart-candle rect { fill: var(--c); }
+  .chart-up .chart-body { fill: none; stroke: var(--c); stroke-width: 1.25; }
+  .chart-candle .chart-volume { fill-opacity: 0.3; }
+  .chart-average { stroke-width: 1.5; }
+  .chart-band { fill: var(--c); fill-opacity: 0.08; }
+  .chart-guide { stroke: rgb(var(--gl-tint) / 0.28); stroke-dasharray: 4 4; }
+
+  /* Chord: hover a ribbon, or a group's arc, and everything unrelated fades back. */
+  .chart-arc { fill: var(--c); filter: drop-shadow(0 0 8px color-mix(in oklab, var(--c) 60%, transparent)); cursor: default; }
+  .chart-ribbon { fill: var(--c); fill-opacity: 0.32; stroke: var(--c); stroke-opacity: 0.55; stroke-width: 0.75; transition: opacity var(--gl-duration-base), fill-opacity var(--gl-duration-base); }
+  .chart-ribbon:hover { fill-opacity: 0.6; }
+  .chart-type-chord:has(.chart-ribbon:hover) .chart-ribbon:not(:hover) { opacity: 0.12; }
+  /* ponytail: one rule per group, so arc-hover highlighting covers the first 12 groups. Generate more if a diagram needs them. */
+  .chart-type-chord:has(.chart-arc.g0:hover) .chart-ribbon:not(.g0), .chart-type-chord:has(.chart-arc.g1:hover) .chart-ribbon:not(.g1),
+  .chart-type-chord:has(.chart-arc.g2:hover) .chart-ribbon:not(.g2), .chart-type-chord:has(.chart-arc.g3:hover) .chart-ribbon:not(.g3),
+  .chart-type-chord:has(.chart-arc.g4:hover) .chart-ribbon:not(.g4), .chart-type-chord:has(.chart-arc.g5:hover) .chart-ribbon:not(.g5),
+  .chart-type-chord:has(.chart-arc.g6:hover) .chart-ribbon:not(.g6), .chart-type-chord:has(.chart-arc.g7:hover) .chart-ribbon:not(.g7),
+  .chart-type-chord:has(.chart-arc.g8:hover) .chart-ribbon:not(.g8), .chart-type-chord:has(.chart-arc.g9:hover) .chart-ribbon:not(.g9),
+  .chart-type-chord:has(.chart-arc.g10:hover) .chart-ribbon:not(.g10), .chart-type-chord:has(.chart-arc.g11:hover) .chart-ribbon:not(.g11) { opacity: 0.12; }
+
+  /* Sparkline: sized like text so it sits in a sentence, a stat or a table cell. */
+  .chart-type-spark { display: inline-block; width: auto; height: 1.75em; vertical-align: middle; }
+
+  /* These are drawn small and square-ish; stop them ballooning to fill a wide container. */
+  .chart-type-heatmap, .chart-type-pie, .chart-type-donut, .chart-type-chord, .chart-type-radar { max-width: 30rem; margin-inline: auto; }
+}

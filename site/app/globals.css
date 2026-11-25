@@ -1,0 +1,74 @@
+@import "tailwindcss";
+@import "../../css/index.css";
+@import "../../css/fonts.css";
+
+/* Site-only styles: page layout and code colours. Everything visual comes from Glimmer itself. */
+@layer components {
+  html { scroll-behavior: smooth; scroll-padding-top: 5rem; }
+  body { margin: 0; line-height: 1.55; }
+
+  .site-backdrop { position: fixed; inset: 0; z-index: -1; opacity: 0.75; pointer-events: none; }
+  /* The bar sits over scrolling text, so it never goes fully clear. */
+  .site-nav { --frost-min: 2; }
+
+  /* The navbar's colour pickers: a native colour input trimmed down to a swatch. */
+  .swatch-input { appearance: none; width: 1.5rem; height: 1.5rem; padding: 0; overflow: hidden; border: 1px solid rgb(var(--gl-tint) / 0.35); border-radius: var(--gl-radius-sm); background: none; cursor: pointer; }
+  .swatch-input::-webkit-color-swatch-wrapper { padding: 0; }
+  .swatch-input::-webkit-color-swatch { border: 0; border-radius: 0; }
+  .swatch-input::-moz-color-swatch { border: 0; }
+
+  /* Long-form docs text. */
+  .prose { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1rem; max-width: 46rem; }
+  .stack-y { display: grid; grid-template-columns: minmax(0, 1fr); }
+  .prose > * { margin: 0; min-width: 0; }
+  .prose h1 { font-size: 2.25rem; font-weight: 700; line-height: 1.1; letter-spacing: -0.03em; }
+  .prose h2 { margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.01em; }
+  .prose p, .prose li { color: var(--gl-muted); }
+  .prose ul, .prose ol { display: grid; gap: 0.375rem; padding-inline-start: 1.25rem; }
+  .prose strong { color: var(--gl-content); font-weight: 600; }
+  .prose :not(pre) > code, .inline-code {
+    padding: 0.1rem 0.35rem;
+    border: 1px solid var(--gl-border);
+    border-radius: 6px;
+    background: rgb(var(--gl-tint) / 0.06);
+    color: var(--gl-content);
+    font: 0.8125em var(--gl-mono);
+  }
+
+  /* A live example. The transform makes fixed components (dock, toast) stay inside the box. */
+  .preview {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    min-height: 10rem;
+    padding: 2.5rem 1.5rem;
+    overflow: hidden;
+    border: 1px solid var(--gl-border);
+    border-bottom: 0;
+    border-radius: var(--gl-radius-lg) var(--gl-radius-lg) 0 0;
+    transform: translateZ(0);
+  }
+  .preview-block { display: block; }
+  .preview-tall { min-height: 22rem; }
+
+  /* The code box under it. */
+  .codebox pre { max-height: 26rem; padding-top: 0.25rem; overflow: auto; }
+  .codebox-bar { position: absolute; top: 0.375rem; right: 0.5rem; display: flex; align-items: center; gap: 0.5rem; }
+  .codebox-bar .tabs { padding: 0.125rem; }
+  .codebox-bar .tab { height: 1.625rem; padding-inline: 0.625rem; font-size: 0.75rem; }
+  .codebox-wrap pre { white-space: pre-wrap; overflow-wrap: anywhere; }
+  .preview + .codebox { border-radius: 0 0 var(--gl-radius-lg) var(--gl-radius-lg); }
+
+  .tok-tag, .tok-kw { color: var(--gl-secondary); }
+  .tok-attr, .tok-fn { color: var(--gl-primary); }
+  .tok-str { color: var(--gl-success); }
+  .tok-com { color: var(--gl-muted); font-style: italic; }
+
+  /* Sidebar links. */
+  .side-link { display: block; padding: 0.3rem 0.75rem; border-radius: var(--gl-radius-sm); color: var(--gl-muted); font-size: 0.875rem; text-decoration: none; }
+  .side-link:hover { color: var(--gl-content); }
+  .side-link[aria-current="page"] { background: rgb(var(--gl-tint) / 0.08); color: var(--gl-content); }
+}

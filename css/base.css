@@ -1,0 +1,150 @@
+/* Animatable angle for aura. */
+@property --gl-angle { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
+
+@layer components {
+  /* The one global rule the components need: sizes include padding and border. Nearly every project sets this already. */
+  *, ::before, ::after { box-sizing: border-box; }
+
+  /* Mirrors direction-dependent offsets in right-to-left pages. */
+  :where(:dir(rtl)) { --gl-dir: -1; }
+
+  /* Frost level for glass, 1 (clear) to 5 (milky). Inherits, so put it on <html> for the whole app
+     or on one surface to change just that one. Any number works: style="--frost: 2.5".
+     --frost-min sets a floor for a region: popovers and toasts use 3, so text floating over a page stays readable on clear glass. */
+  .frost-1 { --frost: 1; }
+  .frost-2 { --frost: 2; }
+  .frost-3 { --frost: 3; }
+  .frost-4 { --frost: 4; }
+  .frost-5 { --frost: 5; }
+
+  /* Text that sits on a coloured fill: near-black on light colours, near-white on dark ones, worked out from --c.
+     Recolouring the theme therefore can't leave an unreadable button. Browsers without relative colours keep the token. */
+  :where([class]) { --gl-on-c: var(--gl-on-accent); }
+  @supports (color: oklch(from red l c h)) {
+    :where([class]) { --gl-on-c: oklch(from var(--c, var(--gl-primary)) calc(0.17 + 0.81 * clamp(0, (0.6 - l) * 1000, 1)) 0.012 255); }
+  }
+
+  /* Focus ring for the kit's own controls. page.css extends it to the whole document. */
+  :where(.btn, .tab, .link, .checkbox, .radio, .toggle, .range, .file-input, .carousel, .accordion > summary, .menu > li > *, .dock > *):focus-visible {
+    outline: 2px solid var(--gl-primary);
+    outline-offset: 2px;
+  }
+
+  /* The signature surface. Every glass component is in this list so the recipe lives in one place.
+     --c tints the inner light; --px/--py place it (glow.js moves them to the pointer on `.glow` surfaces).
+     They are declared here, not read with fallbacks, so a nested surface never inherits its parent's. */
+  :where(.glass, .card, .search, .navbar, .dock, .alert, .stat, .modal, .drawer, .popover, .mockup-window) {
+    --c: var(--gl-secondary);
+    --px: 72%;
+    --py: 88%;
+    --n: calc(clamp(var(--frost-min, 1), var(--frost, 3), 5) - 1); /* level, counted from 0; --frost-min is a floor */
+    --f: max(var(--n) / 2, var(--n) * 2 - 4); /* frost amount per level: 0, 0.5, 1, 2, 4 — small steps first, big ones last */
+    --l: calc(min(var(--f), 2) / 2);          /* inner light: off on clear glass, full from level 3 */
+    --r: calc(1 - var(--l));                  /* edge reflections: full on clear glass, gone by level 3 */
+    border: 1px solid color-mix(in oklab, var(--c) 22%, rgb(var(--gl-tint) / var(--gl-rim, 0.3)));
+    border-radius: var(--gl-radius-lg);
+    background:
+      /* the light: a hot core that falls off slowly */
+      radial-gradient(15rem circle at var(--px) var(--py),
+        color-mix(in oklab, var(--c) calc(var(--l) * 80%), transparent),
+        color-mix(in oklab, var(--c) calc(var(--l) * 32%), transparent) 38%,
+        transparent 78%),
+      /* clear glass only: light pooling in the two corners that face it */
+      radial-gradient(45% 60% at 100% 0%, rgb(255 255 255 / calc(var(--r) * 0.14)), transparent),
+      radial-gradient(45% 60% at 0% 100%, rgb(255 255 255 / calc(var(--r) * 0.1)), transparent),
+      /* the frost: a milky wash, a darker body and a blur, all scaled by --f (nothing at clear glass) */
+      linear-gradient(rgb(255 255 255 / calc(var(--f) * 0.085)), rgb(255 255 255 / calc(var(--f) * 0.035))),
+      color-mix(in oklab, var(--gl-surface) calc(var(--f) * 22.5%), transparent);
+    backdrop-filter: blur(calc(var(--f) * 11px)) saturate(calc(1 + var(--f) * 0.4));
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.35),                                                  /* top edge catches light */
+      inset 0 -1px 0 color-mix(in oklab, var(--c) 45%, transparent),                          /* bottom edge picks up the tint */
+      inset 0 0 28px -10px color-mix(in oklab, var(--c) calc(var(--l) * 60%), transparent),   /* bloom just inside the rim */
+      /* clear glass only: hard white glints along the top-right and bottom-left edges, each with a soft colour fringe */
+      inset -1.5px 1.5px 1px -0.5px rgb(255 255 255 / calc(var(--r) * 0.9)),
+      inset 1.5px -1.5px 1px -0.5px rgb(255 255 255 / calc(var(--r) * 0.65)),
+      inset -8px 8px 12px -8px color-mix(in oklab, var(--gl-secondary) calc(var(--r) * 90%), transparent),
+      inset 8px -8px 12px -8px color-mix(in oklab, var(--gl-primary) calc(var(--r) * 90%), transparent),
+      0 14px 40px -14px rgb(0 0 0 / var(--gl-shadow)),
+      0 10px 70px -22px color-mix(in oklab, var(--c) calc(var(--l) * 100%), transparent);     /* halo spilling onto the page */
+    color: var(--gl-content);
+    /* On clear glass, a soft halo in the page colour keeps text readable over whatever shows through. Gone by level 3. */
+    text-shadow: 0 0 calc(var(--r) * 10px) color-mix(in oklab, var(--gl-base) calc(var(--r) * 90%), transparent), 0 0 calc(var(--r) * 3px) color-mix(in oklab, var(--gl-base) calc(var(--r) * 90%), transparent);
+  }
+  :where(.glass):has(> .table) { overflow: hidden; }
+  /* Spacing inside panels comes from their own gap, so text looks the same with or without a CSS reset. */
+  :where(.card, .modal, .drawer, .popover) > :where(p, h1, h2, h3, h4, h5, h6) { margin: 0; }
+
+  /* Dotted backdrop that fades out toward the edges. */
+  .dotgrid { position: relative; isolation: isolate; }
+  .dotgrid::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+      radial-gradient(rgb(var(--gl-tint) / 0.16) 1px, transparent 1.5px) 0 0 / 14px 14px,
+      radial-gradient(40% 45% at 38% 32%, color-mix(in oklab, var(--gl-primary) 20%, transparent), transparent),
+      radial-gradient(45% 50% at 58% 72%, color-mix(in oklab, var(--gl-secondary) 20%, transparent), transparent);
+    mask-image: radial-gradient(ellipse at center, #000 35%, transparent 80%);
+  }
+
+  /* Backdrop of flowing strands of light, warm to cool, fading out to the right.
+     Combine with dotgrid if you like: they use different layers. */
+  .streaks { position: relative; isolation: isolate; }
+  .streaks::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(170deg, var(--gl-primary), color-mix(in oklab, var(--gl-primary), var(--gl-secondary)) 55%, var(--gl-secondary));
+    /* The strands are an SVG used as a stencil, so they take their colour from the gradient above. */
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 600' preserveAspectRatio='xMidYMid slice'%3E%3Cg fill='none' stroke='%23fff' stroke-linecap='round' transform='rotate(-14 400 300)'%3E%3Cpath stroke-opacity='0.95' stroke-width='1.4' d='M-300 -203Q-265 -205 -230 -200T-160 -186T-90 -168T-20 -153T50 -147T120 -149T190 -152T260 -152T330 -146T400 -138T470 -135T540 -143T610 -160T680 -181T750 -196T820 -199T890 -192T960 -179T1030 -170T1100 -167M-300 -173Q-265 -173 -230 -166T-160 -150T-90 -131T-20 -119T50 -116T120 -120T190 -123T260 -120T330 -113T400 -106T470 -106T540 -118T610 -137T680 -157T750 -168T820 -168T890 -157T960 -145T1030 -137T1100 -136M-300 162Q-265 165 -230 164T-160 160T-90 157T-20 159T50 165T120 172T190 171T260 159T330 140T400 121T470 110T540 111T610 122T680 135T750 143T820 144T890 142T960 143T1030 152T1100 166M-300 365Q-265 364 -230 367T-160 373T-90 379T-20 378T50 366T120 347T190 327T260 317T330 319T400 330T470 344T540 352T610 353T680 351T750 352T820 361T890 375T960 388T1030 391T1100 383M-300 396Q-265 396 -230 399T-160 406T-90 410T-20 406T50 391T120 370T190 353T260 347T330 353T400 366T470 378T540 384T610 383T680 382T750 385T820 396T890 410T960 421T1030 421T1100 408M-300 490Q-265 494 -230 497T-160 498T-90 490T-20 472T50 452T120 438T190 436T260 445T330 459T400 470T470 473T540 472T610 471T680 477T750 490T820 503T890 511T960 506T1030 490T1100 470M-300 569Q-265 572 -230 571T-160 562T-90 545T-20 524T50 511T120 509T190 518T260 532T330 543T400 547T470 545T540 545T610 550T680 563T750 577T820 584T890 579T960 563T1030 542T1100 527M-300 619Q-265 619 -230 614T-160 598T-90 578T-20 561T50 556T120 562T190 575T260 588T330 594T400 594T470 592T540 595T610 606T680 620T750 630T820 629T890 616T960 596T1030 578T1100 569M-300 666Q-265 662 -230 654T-160 634T-90 615T-20 606T50 608T120 620T190 634T260 643T330 644T400 642T470 643T540 651T610 665T680 677T750 680T820 671T890 652T960 633T1030 620T1100 618'/%3E%3Cpath stroke-opacity='0.6' stroke-width='1.2' d='M-300 -151Q-265 -148 -230 -140T-160 -122T-90 -105T-20 -96T50 -95T120 -99T190 -101T260 -97T330 -89T400 -84T470 -88T540 -102T610 -123T680 -141T750 -148T820 -144T890 -132T960 -120T1030 -115T1100 -116M-300 -126Q-265 -121 -230 -112T-160 -93T-90 -78T-20 -72T50 -74T120 -78T190 -78T260 -72T330 -64T400 -62T470 -69T540 -87T610 -108T680 -122T750 -126T820 -118T890 -105T960 -95T1030 -92T1100 -94M-300 74Q-265 82 -230 86T-160 89T-90 85T-20 81T50 83T120 90T190 97T260 96T330 85T400 65T470 46T540 35T610 36T680 46T750 59T820 67T890 68T960 66T1030 68T1100 76M-300 256Q-265 254 -230 252T-160 249T-90 253T-20 260T50 265T120 260T190 245T260 225T330 208T400 201T470 206T540 219T610 231T680 237T750 236T820 235T890 238T960 249T1030 264T1100 275M-300 352Q-265 350 -230 352T-160 357T-90 364T-20 366T50 357T120 340T190 319T260 305T330 303T400 312T470 325T540 336T610 339T680 338T750 337T820 343T890 356T960 370T1030 378T1100 373M-300 423Q-265 425 -230 428T-160 435T-90 437T-20 429T50 411T120 391T190 377T260 375T330 384T400 397T470 408T540 411T610 410T680 409T750 415T820 428T890 442T960 449T1030 445T1100 429M-300 642Q-265 640 -230 633T-160 616T-90 596T-20 582T50 580T120 590T190 604T260 615T330 619T400 617T470 616T540 622T610 635T680 648T750 655T820 650T890 634T960 613T1030 598T1100 592M-300 738Q-265 728 -230 717T-160 701T-90 695T-20 702T50 716T120 729T190 735T260 734T330 733T400 736T470 746T540 760T610 770T680 769T750 755T820 735T890 717T960 708T1030 709T1100 716M-300 755Q-265 744 -230 735T-160 721T-90 720T-20 730T50 744T120 755T190 759T260 758T330 757T400 763T470 775T540 788T610 795T680 789T750 773T820 752T890 737T960 731T1030 735T1100 742'/%3E%3Cpath stroke-opacity='0.34' stroke-width='1' d='M-300 -66Q-265 -58 -230 -48T-160 -30T-90 -21T-20 -21T50 -25T120 -27T190 -23T260 -15T330 -10T400 -14T470 -29T540 -50T610 -67T680 -74T750 -70T820 -58T890 -46T960 -41T1030 -41T1100 -43M-300 -37Q-265 -28 -230 -18T-160 -3T-90 3T-20 0T50 -4T120 -4T190 2T260 10T330 12T400 5T470 -13T540 -34T610 -48T680 -51T750 -43T820 -31T890 -21T960 -17T1030 -19T1100 -20M-300 -10Q-265 -0 -230 8T-160 20T-90 23T-20 20T50 16T120 18T190 25T260 32T330 32T400 20T470 0T540 -19T610 -30T680 -29T750 -19T820 -6T890 2T960 3T1030 1T1100 2M-300 20Q-265 30 -230 37T-160 46T-90 46T-20 42T50 40T120 44T190 52T260 57T330 53T400 38T470 17T540 -0T610 -7T680 -3T750 10T820 21T890 27T960 26T1030 25T1100 28M-300 50Q-265 59 -230 65T-160 71T-90 69T-20 65T50 64T120 70T190 78T260 80T330 72T400 55T470 34T540 19T610 17T680 25T750 38T820 48T890 51T960 49T1030 49T1100 55M-300 193Q-265 194 -230 192T-160 188T-90 186T-20 190T50 197T120 202T190 197T260 182T330 162T400 144T470 138T540 143T610 155T680 167T750 173T820 172T890 171T960 174T1030 185T1100 200M-300 211Q-265 211 -230 209T-160 204T-90 204T-20 209T50 217T120 219T190 211T260 193T330 173T400 158T470 156T540 164T610 177T680 188T750 191T820 189T890 189T960 195T1030 208T1100 222M-300 306Q-265 303 -230 302T-160 304T-90 311T-20 317T50 316T120 304T190 284T260 265T330 254T400 256T470 267T540 281T610 289T680 290T750 288T820 289T890 298T960 312T1030 325T1100 329M-300 330Q-265 328 -230 328T-160 331T-90 338T-20 343T50 338T120 323T190 303T260 286T330 279T400 285T470 297T540 310T610 315T680 315T750 313T820 317T890 328T960 342T1030 353T1100 353M-300 471Q-265 475 -230 478T-160 483T-90 478T-20 463T50 442T120 425T190 419T260 425T330 438T400 451T470 456T540 456T610 454T680 458T750 469T820 483T890 493T960 493T1030 480T1100 460M-300 525Q-265 529 -230 531T-160 529T-90 517T-20 498T50 479T120 469T190 471T260 483T330 496T400 504T470 506T540 504T610 505T680 513T750 527T820 540T890 543T960 534T1030 516T1100 496M-300 597Q-265 599 -230 595T-160 583T-90 564T-20 545T50 535T120 537T190 549T260 563T330 571T400 573T470 571T540 572T610 580T680 594T750 606T820 610T890 600T960 582T1030 562T1100 550M-300 681Q-265 675 -230 666T-160 645T-90 629T-20 623T50 630T120 643T190 656T260 662T330 662T400 660T470 663T540 674T610 688T680 698T750 697T820 683T890 663T960 645T1030 636T1100 637M-300 707Q-265 699 -230 689T-160 669T-90 655T-20 654T50 664T120 678T190 689T260 692T330 691T400 690T470 696T540 708T610 722T680 728T750 723T820 707T890 686T960 671T1030 665T1100 669'/%3E%3Cpath stroke-opacity='0.18' stroke-width='0.9' d='M-300 -101Q-265 -94 -230 -84T-160 -66T-90 -54T-20 -51T50 -54T120 -57T190 -55T260 -48T330 -41T400 -42T470 -53T540 -73T610 -92T680 -104T750 -103T820 -92T890 -80T960 -72T1030 -71T1100 -73M-300 109Q-265 116 -230 118T-160 118T-90 114T-20 112T50 116T120 123T190 128T260 124T330 109T400 88T470 71T540 64T610 69T680 81T750 93T820 99T890 98T960 97T1030 100T1100 111M-300 137Q-265 143 -230 143T-160 141T-90 137T-20 136T50 142T120 149T190 152T260 144T330 126T400 105T470 91T540 88T610 97T680 110T750 120T820 123T890 121T960 121T1030 127T1100 140M-300 236Q-265 234 -230 232T-160 228T-90 230T-20 236T50 243T120 242T190 230T260 210T330 191T400 180T470 182T540 193T610 206T680 214T750 215T820 213T890 215T960 223T1030 237T1100 251M-300 287Q-265 285 -230 283T-160 282T-90 288T-20 295T50 297T120 289T190 271T260 251T330 236T400 234T470 243T540 256T610 266T680 270T750 268T820 268T890 274T960 287T1030 301T1100 309M-300 440Q-265 442 -230 446T-160 452T-90 451T-20 439T50 419T120 400T190 390T260 392T330 403T400 417T470 425T540 427T610 425T680 426T750 434T820 448T890 461T960 464T1030 455T1100 437M-300 542Q-265 546 -230 546T-160 541T-90 526T-20 505T50 489T120 483T190 489T260 502T330 515T400 521T470 520T540 519T610 522T680 532T750 547T820 557T890 556T960 543T1030 523T1100 505M-300 729Q-265 720 -230 709T-160 691T-90 681T-20 684T50 696T120 710T190 718T260 720T330 718T400 719T470 727T540 741T610 753T680 755T750 746T820 727T890 708T960 695T1030 693T1100 699'/%3E%3C/g%3E%3C/svg%3E") center / cover, linear-gradient(100deg, #000 20%, transparent 90%);
+    mask-composite: intersect;
+    pointer-events: none;
+  }
+
+  /* aura — a light that travels around the edge of any element. <button class="btn aura">…</button> */
+  :where(.aura) { position: relative; }
+  .aura { --c: var(--gl-primary); isolation: isolate; }
+  .aura::before, .aura::after {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    background: conic-gradient(from var(--gl-angle), transparent 55%, var(--c) 78%, #fff 88%, var(--c) 94%, transparent);
+    animation: gl-aura 4s linear infinite;
+    pointer-events: none;
+  }
+  /* the crisp line on the border */
+  .aura::before {
+    padding: 1.5px;
+    mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  }
+  /* its soft glow, behind the element */
+  .aura::after { inset: -3px; z-index: -1; filter: blur(12px); opacity: 0.55; }
+  @keyframes gl-aura { to { --gl-angle: 360deg; } }
+
+  /* Small mono caps label: table heads, stat titles, counts. */
+  .meta {
+    color: var(--gl-muted);
+    font: 500 0.6875rem/1.2 var(--gl-mono);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  @keyframes gl-spin { to { rotate: 1turn; } }
+  @keyframes gl-shimmer { to { background-position: -200% 0; } }
+  @keyframes gl-rise { from { opacity: 0; translate: 0 0.5rem; } }
+  @keyframes gl-slide { from { translate: calc(100% * var(--gl-dir, 1)) 0; } }
+
+  /* Reduced motion: the kit's own animations play once and stop. Your page's animations are left alone. */
+  @media (prefers-reduced-motion: reduce) {
+    :is(.spinner, .skeleton, .shimmer, .toast > *, .modal, .drawer, .popover, .btn, .orb, .aura),
+    :is(.btn, .orb, .aura)::before, .aura::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}

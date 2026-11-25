@@ -1,0 +1,3 @@
+/* The default entry: page styles plus every component. Fonts are separate: add "glimmer-ui/css/fonts.css" for the bundled faces. */
+@import "./page.css";
+@import "./components.css";
