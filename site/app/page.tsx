@@ -38,7 +38,7 @@ export default function Home() {
           </Link>
         </div>
         <div className="mt-4 grid w-full max-w-2xl gap-3 text-left">
-          <CodeBox tabs={[tab("Terminal", "bash", "npm i github:huntercash/glimmer-ui")]} />
+          <CodeBox tabs={[tab("Terminal", "bash", "npm i @glimmer-ui-core/glimmer")]} />
           <p className="text-center text-sm text-muted">
             Or hand the setup to an AI agent. Change the frost and colours in the navbar and this prompt follows.
           </p>
@@ -111,7 +111,7 @@ export default function Home() {
       <section className="hero">
         <h2 className="hero-title !text-4xl md:!text-5xl">Two imports and a class name.</h2>
         <div className="w-full max-w-md text-left">
-          <CodeBox tabs={[tab("CSS", "css", '@import "tailwindcss";\n@import "glimmer-ui";')]} />
+          <CodeBox tabs={[tab("CSS", "css", '@import "tailwindcss";\n@import "@glimmer-ui-core/glimmer";')]} />
         </div>
         <Link className="btn btn-primary" href="/docs/install">
           Read the setup guide

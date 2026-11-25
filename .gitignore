@@ -1,4 +1,19 @@
-.build/
+# Dependencies and build output
 node_modules/
+.build/
 .next/
+.swiftpm/
+DerivedData/
+xcuserdata/
+coverage/
+*.tgz
+*.tsbuildinfo
+
+# Secrets and local config
+.env*
+.npmrc
+.vercel/
+
+# Noise
 .DS_Store
+*.log

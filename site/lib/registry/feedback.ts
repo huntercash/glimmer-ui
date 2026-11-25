@@ -53,16 +53,16 @@ Banner("Payment failed. Update your card.", color: Tokens.danger)`,
           <button class="btn" id="save">Save</button>
 
           <script type="module">
-            import { toast } from "glimmer-ui/behaviors.js";
+            import { toast } from "@glimmer-ui-core/glimmer/behaviors.js";
             document.getElementById("save").onclick = () => toast("Saved.", { type: "success" });
           </script>`,
-        js: `import { toast } from "glimmer-ui/behaviors.js";
+        js: `import { toast } from "@glimmer-ui-core/glimmer/behaviors.js";
 
 toast("Saved.", { type: "success" });                  // gone after four seconds
 toast("Could not save.", { type: "danger" });          // errors interrupt screen readers
 const note = toast("Uploading…", { duration: 0 });     // stays until you call note.remove()
 toast("Copied.", { top: true, start: true });          // top, at the start edge`,
-        react: `import { toast } from "glimmer-ui/react";
+        react: `import { toast } from "@glimmer-ui-core/glimmer/react";
 
 <button className="btn" onClick={() => toast("Saved.", { type: "success" })}>Save</button>`,
       },

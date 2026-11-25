@@ -1,7 +1,7 @@
 @layer components {
   /* Document-level styling: the page background, text colour, font and a focus ring for everything.
      This is the only file that styles things you did not put a Glimmer class on. To keep your own page styles,
-     import "glimmer-ui/css/components.css" instead of the default entry, which leaves this file out. */
+     import "@glimmer-ui-core/glimmer/css/components.css" instead of the default entry, which leaves this file out. */
   :where(:root) {
     color-scheme: dark;
     background: var(--gl-base);

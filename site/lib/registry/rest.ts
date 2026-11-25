@@ -151,7 +151,7 @@ export const mockup: Entry[] = [
         title: "Terminal",
         html: html`
           <div class="mockup-code" style="width: min(26rem, 100%)">
-            <pre data-prefix="$"><code>npm i github:huntercash/glimmer-ui</code></pre>
+            <pre data-prefix="$"><code>npm i @glimmer-ui-core/glimmer</code></pre>
             <pre data-prefix=">"><code>added 1 package</code></pre>
           </div>`,
       },

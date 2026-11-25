@@ -17,17 +17,16 @@ export default function InstallPage() {
       </p>
 
       <div className="alert alert-warning">
-        Pre-release: Glimmer is not on npm yet, so install it from GitHub as shown below. Do not run <code>npm i glimmer-ui</code>: that name on
-        npm belongs to an unrelated package.
+        The package is <code>@glimmer-ui-core/glimmer</code>. The unscoped <code>glimmer-ui</code> on npm is an unrelated package.
       </div>
 
       <h2>1. Install the package</h2>
       <CodeBox
         tabs={[
-          tab("npm", "bash", "npm i github:huntercash/glimmer-ui"),
-          tab("pnpm", "bash", "pnpm add github:huntercash/glimmer-ui"),
-          tab("yarn", "bash", "yarn add glimmer-ui@https://github.com/huntercash/glimmer-ui.git"),
-          tab("bun", "bash", "bun add github:huntercash/glimmer-ui"),
+          tab("npm", "bash", "npm i @glimmer-ui-core/glimmer"),
+          tab("pnpm", "bash", "pnpm add @glimmer-ui-core/glimmer"),
+          tab("yarn", "bash", "yarn add @glimmer-ui-core/glimmer"),
+          tab("bun", "bash", "bun add @glimmer-ui-core/glimmer"),
         ]}
       />
 
@@ -44,9 +43,9 @@ export default function InstallPage() {
       </p>
       <CodeBox
         tabs={[
-          tab("Tailwind v4", "css", '@import "tailwindcss";\n@import "glimmer-ui";\n@import "glimmer-ui/css/tailwind.css"; /* optional: variants such as md:btn-lg */'),
-          tab("Plain CSS", "css", '@import "glimmer-ui/css/index.css";'),
-          tab("HTML", "html", '<link rel="stylesheet" href="node_modules/glimmer-ui/css/index.css">'),
+          tab("Tailwind v4", "css", '@import "tailwindcss";\n@import "@glimmer-ui-core/glimmer";\n@import "@glimmer-ui-core/glimmer/css/tailwind.css"; /* optional: variants such as md:btn-lg */'),
+          tab("Plain CSS", "css", '@import "@glimmer-ui-core/glimmer/css/index.css";'),
+          tab("HTML", "html", '<link rel="stylesheet" href="node_modules/@glimmer-ui-core/glimmer/css/index.css">'),
         ]}
       />
 
@@ -87,11 +86,11 @@ export default function InstallPage() {
       </div>
       <CodeBox
         tabs={[
-          tab("Bundler", "js", 'import "glimmer-ui/glow.js";\nimport "glimmer-ui/behaviors.js";\nimport "glimmer-ui/charts.js";'),
+          tab("Bundler", "js", 'import "@glimmer-ui-core/glimmer/glow.js";\nimport "@glimmer-ui-core/glimmer/behaviors.js";\nimport "@glimmer-ui-core/glimmer/charts.js";'),
           tab(
             "HTML",
             "html",
-            '<script src="node_modules/glimmer-ui/glow.js" defer></script>\n<script type="module" src="node_modules/glimmer-ui/behaviors.js"></script>\n<script type="module" src="node_modules/glimmer-ui/charts.js"></script>',
+            '<script src="node_modules/@glimmer-ui-core/glimmer/glow.js" defer></script>\n<script type="module" src="node_modules/@glimmer-ui-core/glimmer/behaviors.js"></script>\n<script type="module" src="node_modules/@glimmer-ui-core/glimmer/charts.js"></script>',
           ),
         ]}
       />
@@ -106,7 +105,7 @@ export default function InstallPage() {
           tab(
             "React",
             "js",
-            'import { Chart, Tabs, Modal, Drawer, toast } from "glimmer-ui/react";\n\n<button className="btn btn-primary" onClick={() => toast("Saved.", { type: "success" })}>Save</button>\n<Chart type="line" data={{ labels, series }} options={{ smooth: true }} />',
+            'import { Chart, Tabs, Modal, Drawer, toast } from "@glimmer-ui-core/glimmer/react";\n\n<button className="btn btn-primary" onClick={() => toast("Saved.", { type: "success" })}>Save</button>\n<Chart type="line" data={{ labels, series }} options={{ smooth: true }} />',
           ),
         ]}
       />
@@ -118,8 +117,8 @@ export default function InstallPage() {
       </p>
       <CodeBox
         tabs={[
-          tab("CSS", "css", '@import "glimmer-ui/css/fonts.css";'),
-          tab("HTML", "html", '<link rel="stylesheet" href="node_modules/glimmer-ui/css/fonts.css">'),
+          tab("CSS", "css", '@import "@glimmer-ui-core/glimmer/css/fonts.css";'),
+          tab("HTML", "html", '<link rel="stylesheet" href="node_modules/@glimmer-ui-core/glimmer/css/fonts.css">'),
         ]}
       />
       <p>
@@ -135,8 +134,8 @@ export default function InstallPage() {
       </p>
       <CodeBox
         tabs={[
-          tab("Components only", "css", '/* Leaves your page background, fonts and focus styles alone. */\n@import "glimmer-ui/css/components.css";'),
-          tab("Prefixed", "css", '/* Every class gets a gl- prefix: gl-btn, gl-card, gl-glass. Also leaves the page alone. */\n@import "glimmer-ui/css/prefixed.css";'),
+          tab("Components only", "css", '/* Leaves your page background, fonts and focus styles alone. */\n@import "@glimmer-ui-core/glimmer/css/components.css";'),
+          tab("Prefixed", "css", '/* Every class gets a gl- prefix: gl-btn, gl-card, gl-glass. Also leaves the page alone. */\n@import "@glimmer-ui-core/glimmer/css/prefixed.css";'),
         ]}
       />
       <p>

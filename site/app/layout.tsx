@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Glow } from "@/components/Glow";
 import { ThemeControls } from "@/components/ThemeControls";
 import { bootScript } from "@/lib/theme-boot";
+import pkg from "../../package.json";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -24,6 +25,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             <Link href="/" className="btn btn-ghost btn-sm font-semibold">
               Glimmer
             </Link>
+            <Link href="/changelog" className="badge" title="Changelog">
+              v{pkg.version}
+            </Link>
             <Link href="/docs/install" className="btn btn-ghost btn-sm">
               Docs
             </Link>
@@ -41,7 +45,6 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
               <div popover="auto" id="theme-menu" className="popover w-64 p-4 md:hidden">
                 <ThemeControls />
               </div>
-              <span className="badge hidden lg:inline-flex">v0.1</span>
             </div>
           </nav>
         </header>
@@ -55,6 +58,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             <Link href="/docs/usage">Usage</Link>
             <Link href="/docs/customize">Customize</Link>
             <Link href="/docs/swiftui">SwiftUI</Link>
+            <Link href="/changelog">Changelog</Link>
           </nav>
           <nav aria-label="Components">
             <span className="footer-title">Components</span>

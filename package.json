@@ -1,5 +1,5 @@
 {
-  "name": "glimmer-ui",
+  "name": "@glimmer-ui-core/glimmer",
   "version": "0.1.0",
   "description": "Glass-and-glow component classes for the web, with a matching SwiftUI package.",
   "type": "module",

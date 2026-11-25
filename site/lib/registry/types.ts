@@ -24,7 +24,7 @@ export type Example = {
   preview?: string;
   /** The same thing as a JavaScript call, for components that have one. */
   js?: string;
-  /** The same thing with the React components from glimmer-ui/react, for the few components that have one. */
+  /** The same thing with the React components from @glimmer-ui-core/glimmer/react, for the few components that have one. */
   react?: string;
   /** The SwiftUI equivalent, when the Swift package has one. */
   swift?: string;

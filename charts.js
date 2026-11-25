@@ -1,7 +1,7 @@
 // Glimmer charts: small functions that turn data into an SVG string. No dependencies and no DOM needed,
 // so they run on a server, in a build step or in the browser. All styling is in css/charts.css.
 //
-//   import { lineChart } from "glimmer-ui/charts.js";
+//   import { lineChart } from "@glimmer-ui-core/glimmer/charts.js";
 //   element.innerHTML = lineChart({ labels: ["Mon", "Tue"], series: [{ name: "Visits", values: [3, 5] }] });
 //
 // In plain HTML, load this file as a module and use the tag instead:

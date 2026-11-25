@@ -1,7 +1,7 @@
 @layer components {
   /* Frames for showing things off. The three dots come free on code and window.
 
-     mockup-code   — <div class="mockup-code"><pre data-prefix="$"><code>npm i glimmer-ui</code></pre></div>
+     mockup-code   — <div class="mockup-code"><pre data-prefix="$"><code>npm i @glimmer-ui-core/glimmer</code></pre></div>
      mockup-window — <div class="mockup-window"><div class="mockup-url">glimmer.dev</div>…</div>   (mockup-url is optional)
      mockup-phone  — <div class="mockup-phone"><div class="mockup-phone-display">…</div></div> */
   .mockup-code, .mockup-window { position: relative; overflow: hidden; }

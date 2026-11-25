@@ -52,8 +52,8 @@ export const navigation: Entry[] = [
             <p id="panel-activity" role="tabpanel" hidden>Mika added 36 photos to Tokyo.</p>
             <p id="panel-settings" role="tabpanel" hidden>Sharing is on for this project.</p>
           </div>`,
-        js: `import "glimmer-ui/behaviors.js"; // once, anywhere in your app`,
-        react: `import { Tabs } from "glimmer-ui/react";
+        js: `import "@glimmer-ui-core/glimmer/behaviors.js"; // once, anywhere in your app`,
+        react: `import { Tabs } from "@glimmer-ui-core/glimmer/react";
 
 <Tabs
   aria-label="Project"

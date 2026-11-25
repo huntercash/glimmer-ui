@@ -73,7 +73,7 @@
   }
 
   /* toast — fixed stack for alerts. Add toast-top and/or toast-start to move it.
-     From script: import { toast } from "glimmer-ui/behaviors.js"; toast("Saved", { type: "success" }); */
+     From script: import { toast } from "@glimmer-ui-core/glimmer/behaviors.js"; toast("Saved", { type: "success" }); */
   .toast {
     --frost-min: 3;
     position: fixed;

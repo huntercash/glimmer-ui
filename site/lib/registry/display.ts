@@ -337,7 +337,7 @@ Bubble("Shipped ten minutes ago.", mine: true)`,
       {
         title: "Carousel of cards",
         layout: "block",
-        js: `import "glimmer-ui/behaviors.js"; // once, anywhere in your app`,
+        js: `import "@glimmer-ui-core/glimmer/behaviors.js"; // once, anywhere in your app`,
         html: html`
           <div style="display: flex; justify-content: flex-end; gap: 0.5rem; margin-bottom: 0.75rem">
             <button class="btn btn-circle btn-sm" data-carousel="prev" aria-controls="albums" aria-label="Previous albums">‹</button>

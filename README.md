@@ -22,7 +22,7 @@ Glass-and-glow UI for the web and Apple platforms. One set of design tokens, two
 
 78 components, including 15 chart types, a frost level you can turn from clear glass to milky, and light and dark themes.
 
-> **Pre-release.** Not on npm yet, no version history, and only tested in Chromium so far. See [TODO.md](TODO.md) for what is open.
+> **Pre-release.** No stability promise yet, and only tested in Chromium so far. See [TODO.md](TODO.md) for what is open.
 
 | Light theme, frosted glass | Every component, live |
 | --- | --- |
@@ -32,10 +32,10 @@ Glass-and-glow UI for the web and Apple platforms. One set of design tokens, two
 
 ## Install (web)
 
-Glimmer is not on npm yet, so install it from this repository. (Do not run `npm i glimmer-ui`: that name on npm belongs to an unrelated package.)
+The package is `@glimmer-ui-core/glimmer`. (The unscoped `glimmer-ui` on npm is an unrelated package.)
 
 ```bash
-npm i github:huntercash/glimmer-ui
+npm i @glimmer-ui-core/glimmer
 ```
 
 Then add it to your CSS:
@@ -43,17 +43,17 @@ Then add it to your CSS:
 ```css
 /* With Tailwind v4: utilities override components, and the tokens become bg-primary, text-muted, font-mono. */
 @import "tailwindcss";
-@import "glimmer-ui";
+@import "@glimmer-ui-core/glimmer";
 ```
 
 ```css
 /* Without Tailwind */
-@import "glimmer-ui/css/index.css";
+@import "@glimmer-ui-core/glimmer/css/index.css";
 ```
 
 ```html
 <!-- Or straight from HTML -->
-<link rel="stylesheet" href="node_modules/glimmer-ui/css/index.css">
+<link rel="stylesheet" href="node_modules/@glimmer-ui-core/glimmer/css/index.css">
 ```
 
 ```html
@@ -88,20 +88,20 @@ Everything below is opt-in. The default import is CSS only.
 
 | Import | What it adds |
 | --- | --- |
-| `glimmer-ui/css/fonts.css` | The bundled SUIT and Fragment Mono fonts (about 790 kB). Without it, text uses the system font. |
-| `glimmer-ui/css/tailwind.css` | Tailwind v4 only: variants on Glimmer's modifiers, such as `md:btn-lg` and `hover:btn-primary`. |
-| `glimmer-ui/css/components.css` | Use instead of the default import to leave your page's background, font and focus styles alone. |
-| `glimmer-ui/css/prefixed.css` | Use instead of the default import if names like `.btn` or `.card` are taken: every class gets a `gl-` prefix. |
-| `glimmer-ui/glow.js` | Light follows the pointer on `.glow` surfaces. |
-| `glimmer-ui/behaviors.js` | Tabs that switch panels (with arrow keys), `toast()`, carousel buttons, filtering a list as you type, tooltips screen readers can read. |
-| `glimmer-ui/charts.js` | The chart functions and the `<gl-chart>` tag. |
-| `glimmer-ui/react` | `Chart`, `Tabs`, `Modal`, `Drawer` and `toast`, with TypeScript types. |
+| `@glimmer-ui-core/glimmer/css/fonts.css` | The bundled SUIT and Fragment Mono fonts (about 790 kB). Without it, text uses the system font. |
+| `@glimmer-ui-core/glimmer/css/tailwind.css` | Tailwind v4 only: variants on Glimmer's modifiers, such as `md:btn-lg` and `hover:btn-primary`. |
+| `@glimmer-ui-core/glimmer/css/components.css` | Use instead of the default import to leave your page's background, font and focus styles alone. |
+| `@glimmer-ui-core/glimmer/css/prefixed.css` | Use instead of the default import if names like `.btn` or `.card` are taken: every class gets a `gl-` prefix. |
+| `@glimmer-ui-core/glimmer/glow.js` | Light follows the pointer on `.glow` surfaces. |
+| `@glimmer-ui-core/glimmer/behaviors.js` | Tabs that switch panels (with arrow keys), `toast()`, carousel buttons, filtering a list as you type, tooltips screen readers can read. |
+| `@glimmer-ui-core/glimmer/charts.js` | The chart functions and the `<gl-chart>` tag. |
+| `@glimmer-ui-core/glimmer/react` | `Chart`, `Tabs`, `Modal`, `Drawer` and `toast`, with TypeScript types. |
 
 The scripts are safe to import on a server, where they do nothing. Modals, drawers, popovers and accordions need no script: they are the native `<dialog>`, `[popover]` and `<details>`.
 
 ```js
-import "glimmer-ui/glow.js";
-import { toast } from "glimmer-ui/behaviors.js";
+import "@glimmer-ui-core/glimmer/glow.js";
+import { toast } from "@glimmer-ui-core/glimmer/behaviors.js";
 
 toast("Saved.", { type: "success" });
 ```
@@ -134,7 +134,7 @@ Small dependency-free functions that return an SVG string, so they run on a serv
 Line, area, bar, scatter, histogram, box plot, heatmap, pie and donut, sparkline, radar, chord diagram, candlestick, OHLC, RSI and MACD. The indicator maths (`sma`, `ema`, `bollinger`, `rsi`, `macd`, `heikinAshi`) is exported too.
 
 ```js
-import { lineChart } from "glimmer-ui/charts.js";
+import { lineChart } from "@glimmer-ui-core/glimmer/charts.js";
 
 element.innerHTML = lineChart(
   { labels: ["Mon", "Tue", "Wed"], series: [{ name: "Visits", values: [3, 5, 4] }] },
@@ -145,7 +145,7 @@ element.innerHTML = lineChart(
 In plain HTML, load the file as a module and use the tag. It draws at its own width, adds a crosshair with a readout, and with `zoom` lets people zoom and pan:
 
 ```html
-<script type="module" src="node_modules/glimmer-ui/charts.js"></script>
+<script type="module" src="node_modules/@glimmer-ui-core/glimmer/charts.js"></script>
 
 <gl-chart type="candlestick" zoom data='{"candles":[{"date":"Oct 2","open":182,"high":186,"low":180,"close":185,"volume":64}]}'
   options='{"sma":[5,20],"bollinger":true}'></gl-chart>
@@ -158,7 +158,7 @@ Pass `times` (dates, ISO strings or millisecond numbers) instead of `labels` to 
 The classes go on plain elements, so most of Glimmer needs no components. The parts with behaviour have small ones:
 
 ```jsx
-import { Chart, Tabs, Modal, toast } from "glimmer-ui/react";
+import { Chart, Tabs, Modal, toast } from "@glimmer-ui-core/glimmer/react";
 
 <button className="btn btn-primary" onClick={() => toast("Saved.", { type: "success" })}>Save</button>
 

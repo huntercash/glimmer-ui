@@ -133,9 +133,9 @@ function example(title: string, type: string, fn: string, data: unknown, options
     title,
     layout: "block",
     preview: interactive(type, data, options),
-    html: `<script type="module" src="node_modules/glimmer-ui/charts.js"></script>\n\n${tag(type, data, options)}`,
-    js: `import { ${fn} } from "glimmer-ui/charts.js";\n\nelement.innerHTML = ${fn}(${pretty}${options ? `, ${JSON.stringify(options)}` : ""});`,
-    react: `import { Chart } from "glimmer-ui/react";\n\nconst data = ${pretty};\n\n<Chart type="${type}" data={data}${options ? ` options={${JSON.stringify(options)}}` : ""}${zoomable(type, data) ? " zoom" : ""} />`,
+    html: `<script type="module" src="node_modules/@glimmer-ui-core/glimmer/charts.js"></script>\n\n${tag(type, data, options)}`,
+    js: `import { ${fn} } from "@glimmer-ui-core/glimmer/charts.js";\n\nelement.innerHTML = ${fn}(${pretty}${options ? `, ${JSON.stringify(options)}` : ""});`,
+    react: `import { Chart } from "@glimmer-ui-core/glimmer/react";\n\nconst data = ${pretty};\n\n<Chart type="${type}" data={data}${options ? ` options={${JSON.stringify(options)}}` : ""}${zoomable(type, data) ? " zoom" : ""} />`,
     swift,
   };
 }
@@ -154,7 +154,7 @@ export const charts: Entry[] = [
     classes: [
       ["<gl-chart type data options>", "component", "A tag for plain HTML. Load charts.js once as a module and it draws itself at its own width, so text stays the same size on a phone"],
       ["<gl-chart zoom>", "modifier", "Attribute: charts over labels, times or candles zoom (pinch, Ctrl + wheel, + and −), pan (drag, Shift + arrows) and reset (double-click, 0)"],
-      ["<Chart type data options zoom />", "component", "The React component, from glimmer-ui/react. Drawn on the server, interactive in the browser"],
+      ["<Chart type data options zoom />", "component", "The React component, from @glimmer-ui-core/glimmer/react. Drawn on the server, interactive in the browser"],
       ["chart(type, data, options)", "component", "The same thing as a function that returns an SVG string. Works on a server or in the browser"],
       ["chart", "component", "The class on every chart's <svg>, if you want to style them yourself"],
       ["--chart-1 … --chart-8", "modifier", "CSS variables: the series colours. The first five are the accent tokens, the rest are blends"],
@@ -345,7 +345,7 @@ Chart(counts, id: \\.range.lowerBound) { bin in
         title: "Inside a stat",
         preview: `<div class="stat" style="min-width: 15rem"><span class="meta">Revenue</span><span class="stat-value">$48,210 ${draw("spark", sample.spark)}</span><span class="stat-desc">↑ 12% vs last month</span></div>`,
         html: `<div class="stat">\n  <span class="meta">Revenue</span>\n  <span class="stat-value">$48,210 <gl-chart type="spark" data='${JSON.stringify(sample.spark)}' style="display: inline-block"></gl-chart></span>\n  <span class="stat-desc">↑ 12% vs last month</span>\n</div>`,
-        js: `import { sparkline } from "glimmer-ui/charts.js";\n\nelement.innerHTML = sparkline(${JSON.stringify(sample.spark)});`,
+        js: `import { sparkline } from "@glimmer-ui-core/glimmer/charts.js";\n\nelement.innerHTML = sparkline(${JSON.stringify(sample.spark)});`,
       },
     ],
   },

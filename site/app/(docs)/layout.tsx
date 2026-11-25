@@ -7,6 +7,7 @@ const docs = [
   ["Usage", "/docs/usage"],
   ["Customize", "/docs/customize"],
   ["SwiftUI", "/docs/swiftui"],
+  ["Changelog", "/changelog"],
 ];
 
 function SideNav() {

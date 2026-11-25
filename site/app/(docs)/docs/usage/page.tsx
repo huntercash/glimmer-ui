@@ -68,7 +68,7 @@ export default function UsagePage() {
       </p>
       <CodeBox
         tabs={[
-          tab("CSS", "css", '@import "tailwindcss";\n@import "glimmer-ui";\n@import "glimmer-ui/css/tailwind.css";'),
+          tab("CSS", "css", '@import "tailwindcss";\n@import "@glimmer-ui-core/glimmer";\n@import "@glimmer-ui-core/glimmer/css/tailwind.css";'),
           tab("HTML", "html", '<button class="btn md:btn-lg hover:btn-primary">Grows on wide screens</button>'),
         ]}
       />
@@ -91,8 +91,8 @@ export default function UsagePage() {
       </p>
       <CodeBox
         tabs={[
-          tab("JavaScript", "js", 'import { toast } from "glimmer-ui/behaviors.js";\n\ntoast("Saved.", { type: "success" });'),
-          tab("React", "js", 'import { Tabs, Modal, toast } from "glimmer-ui/react";\n\n<Modal open={open} onClose={() => setOpen(false)}>\n  <p className="card-title">Delete album?</p>\n</Modal>'),
+          tab("JavaScript", "js", 'import { toast } from "@glimmer-ui-core/glimmer/behaviors.js";\n\ntoast("Saved.", { type: "success" });'),
+          tab("React", "js", 'import { Tabs, Modal, toast } from "@glimmer-ui-core/glimmer/react";\n\n<Modal open={open} onClose={() => setOpen(false)}>\n  <p className="card-title">Delete album?</p>\n</Modal>'),
         ]}
       />
 

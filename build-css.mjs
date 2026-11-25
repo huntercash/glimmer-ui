@@ -36,7 +36,7 @@ export function build() {
    add css/page.css if you want Glimmer's background, text colour and focus ring as well. */\n` +
       parts.map((name) => (renamed.includes(name) ? prefix(read(name)) : read(name)).trim()).join("\n\n") + "\n",
     "css/tailwind.css": `${banner}/* Tailwind CSS v4 only. Import after Glimmer to use its modifier classes with variants: md:btn-lg, hover:btn-primary, lg:frost-3.
-   @import "tailwindcss"; @import "glimmer-ui"; @import "glimmer-ui/css/tailwind.css";
+   @import "tailwindcss"; @import "@glimmer-ui-core/glimmer"; @import "@glimmer-ui-core/glimmer/css/tailwind.css";
    Covers classes defined by a single plain rule (sizes, colours, frost levels). Component classes themselves need no variant. */\n` +
       utilities(renamed.map(read).join("\n")) + "\n",
   };

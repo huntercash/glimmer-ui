@@ -6,7 +6,6 @@
 - **Print and Windows high contrast.** The rules are written (`css/media.css`, and the print block in `css/tokens.css`) but have not been seen on paper or in forced-colours mode.
 - **Visual regression tests.** None. Needs Playwright (not installed here) and a set of baseline screenshots.
 - **Accessibility audit.** Text on clear glass gets a halo, and accent-coloured text is darkened in the light theme, but contrast is not measured. Test with a screen reader.
-- **npm name.** `glimmer-ui` on npm is someone else's package, so publishing needs another name (a scope such as `@huntercash/glimmer-ui`, or a new name). Every import in the docs (`glimmer-ui/...`) follows the `name` in `package.json`, so they change with it. Until then the docs install from GitHub.
 - **SonarQube Cloud leftovers.** About 50 style findings are left on purpose: nested ternaries, nested template literals, two functions over the complexity limit, several Swift variables declared on one line, and index keys on the React tabs (a fixed list). Mark them "Accepted" on sonarcloud.io or turn the rules off in the quality profile. No coverage report yet: that needs a CI step.
 - **Tag a release.** The Swift package instructions track `main` because no version tag exists.
 
