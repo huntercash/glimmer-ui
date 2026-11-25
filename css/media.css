@@ -14,7 +14,7 @@
   @media print {
     :root, .popover, .toast { --frost-min: 5; }
     *, ::before, ::after { box-shadow: none !important; text-shadow: none !important; backdrop-filter: none !important; animation: none !important; }
-    .dock, .toast, .dotgrid::before, .streaks::after, .aura::before, .aura::after, .flare { display: none !important; }
+    .dock, .toast, .sidebar-handle, .dotgrid::before, .streaks::after, .aura::before, .aura::after, .flare { display: none !important; }
   }
 
   /* Forced colours (Windows high contrast): the system paints over backgrounds and shadows, so any state that was

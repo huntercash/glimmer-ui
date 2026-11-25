@@ -122,6 +122,118 @@ export const navigation: Entry[] = [
     ],
   },
   {
+    slug: "sidebar",
+    name: "Sidebar",
+    category: "Navigation",
+    blurb: "A column of menus that folds down to a rail of icons. It has a search, rows you can drag, and a handle on its edge.",
+    classes: [
+      ["sidebar", "component", "The column, on a <nav>. Add glass for a glass panel. Set --sidebar-width to change its open width"],
+      ["data-collapsed", "state", "Attribute on the sidebar: folds it to the rail. behaviors.js adds and removes it"],
+      ["sidebar-brand", "part", "The row at the top: a logo, then a name"],
+      ["sidebar-search", "part", "A <label> holding an icon, an <input> and a shortcut hint"],
+      ["menu", "part", "Each list of rows. Give it an aria-label: it names the list in the toast when a row is dragged in"],
+      ["menu-title", "part", "A heading above a list. On the rail it becomes a hairline"],
+      ["sidebar-row", "part", "Any other row: avatars, a plan card, the signed-in user"],
+      ["sidebar-end", "part", "A group pushed to the bottom"],
+      ["sidebar-handle", "part", "A <button> on the trailing edge. Click or drag it to fold and unfold"],
+      ["data-tip", "part", "On an <li>: the tooltip shown beside its icon on the rail"],
+      ['draggable="true"', "part", "On an <li>: lets it be dragged to a new place, or moved with Alt+↑ and Alt+↓"],
+      ["aria-current", "state", "On the link for the current page: lights a dot on the sidebar's edge"],
+    ],
+    note: "Folding, search and dragging need behaviors.js. In a row, put the icon first and the label second, in a <span>; whatever follows (a badge, a toggle) is pushed to the end. Rows clip themselves, so the rail is the same markup cut off after the icon. In SwiftUI it is the Sidebar view: the rows are data you bind, so dragging reorders your own array. A dragged row sends a cancelable gl-move event with detail { list, before } before it moves: when a framework renders the rows from state, call preventDefault() and update the state yourself.",
+    examples: [
+      {
+        title: "Sidebar",
+        tall: true,
+        html: html`
+          <nav class="sidebar glass" aria-label="Main" style="height: 36rem">
+            <a class="sidebar-brand" href="#">
+              <span class="avatar avatar-sm">G</span>
+              <strong>Glimmer</strong>
+              <span class="badge">Pro</span>
+            </a>
+            <label class="sidebar-search">
+              ${icon.search}
+              <input type="search" placeholder="Search" aria-label="Search the menu">
+              <kbd class="kbd">⌘K</kbd>
+            </label>
+
+            <span class="menu-title meta">Pinned</span>
+            <ul class="menu" aria-label="Pinned">
+              <li data-tip="Home" draggable="true"><a href="#home" aria-current="page">${icon.home} <span>Home</span></a></li>
+              <li data-tip="Inbox · 4 new" draggable="true">
+                <a href="#inbox">
+                  <span class="indicator">${icon.bell}<span class="indicator-item status status-primary"></span></span>
+                  <span>Inbox</span>
+                  <span class="badge badge-primary">4</span>
+                </a>
+              </li>
+            </ul>
+
+            <span class="menu-title meta">Library</span>
+            <ul class="menu" aria-label="Library">
+              <li data-tip="Photos" draggable="true"><a href="#photos">${icon.photo} <span>Photos</span></a></li>
+              <li data-tip="Places" draggable="true"><a href="#places">${icon.pin} <span>Places</span></a></li>
+              <li data-tip="Sync · 3 running" draggable="true">
+                <label>${icon.bolt} <span>Sync</span> <input class="toggle" type="checkbox" checked></label>
+              </li>
+              <li data-tip="Analytics" draggable="true"><a href="#analytics">${icon.chart} <span>Analytics</span></a></li>
+            </ul>
+
+            <span class="menu-title meta">Team</span>
+            <div class="sidebar-row">
+              <span class="avatar-group">
+                <span class="avatar avatar-sm" title="Mika Ross · Design">MR</span>
+                <span class="avatar avatar-sm" title="Jon Sato · Engineering">JS</span>
+                <span class="avatar avatar-sm" title="Tess Lind · Research">TL</span>
+              </span>
+              <span class="meta">+3 online</span>
+            </div>
+
+            <div class="sidebar-end">
+              <div class="sidebar-row">
+                <div class="radial" style="--value: 43; width: 1.5rem; margin: 0.25rem" role="progressbar" aria-valuenow="43" aria-label="Trial used"></div>
+                <span>Pro trial <small class="meta">8 days left</small></span>
+                <button class="btn btn-sm">Upgrade</button>
+              </div>
+              <a class="sidebar-row" href="#">
+                <span class="avatar avatar-sm">AK</span>
+                <span>Aiden Kerr <small class="meta">aiden@example.com</small></span>
+              </a>
+            </div>
+            <button class="sidebar-handle" aria-label="Toggle sidebar" aria-expanded="true"></button>
+          </nav>`,
+        js: `import "@glimmer-ui-core/glimmer/behaviors.js"; // once, anywhere in your app
+
+// Optional: keep your own state in step when a row is dragged.
+document.addEventListener("gl-move", (e) => {
+  console.log(e.target, "moved into", e.detail.list, "before", e.detail.before);
+});`,
+        swift: `@State private var page: String? = "Home"
+@State private var folded = false
+@State private var sync = true
+@State private var menu = [
+    SidebarSection("Pinned", items: [
+        SidebarItem("Home", systemImage: "house"),
+        SidebarItem("Inbox", systemImage: "bell", badge: "4", hint: "Inbox · 4 new"),
+    ]),
+    SidebarSection("Library", items: [
+        SidebarItem("Photos", systemImage: "photo"),
+        SidebarItem("Places", systemImage: "mappin.and.ellipse"),
+    ]),
+]
+
+Sidebar(sections: $menu, selection: $page, collapsed: $folded) {
+    HStack(spacing: 12) { Avatar("G", size: 32); Text("Glimmer") }
+} footer: {
+    HStack(spacing: 12) { Avatar("AK", size: 32); Text("Aiden Kerr") }
+}
+
+// A row that is a switch: SidebarItem("Sync", systemImage: "bolt", isOn: $sync)`,
+      },
+    ],
+  },
+  {
     slug: "steps",
     name: "Steps",
     category: "Navigation",

@@ -16,3 +16,12 @@ export function toast(message: string, options?: ToastOptions): HTMLDivElement;
 
 /** Optional: sets up tooltips and tab stops inside `root` straight away instead of on first focus. Not for markup a framework is about to hydrate. */
 export function init(root?: ParentNode): void;
+
+/** Sent from a sidebar row before it is dragged (or moved with Alt+↑/↓) to a new place. `before` is the row it will land
+    in front of, or null for the end of `list`. Call preventDefault() to stop the move and do it in your own state. */
+export type MoveEvent = CustomEvent<{ list: HTMLElement; before: Element | null }>;
+declare global {
+  interface GlobalEventHandlersEventMap {
+    "gl-move": MoveEvent;
+  }
+}

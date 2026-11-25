@@ -140,7 +140,7 @@
 
   /* Reduced motion: the kit's own animations play once and stop. Your page's animations are left alone. */
   @media (prefers-reduced-motion: reduce) {
-    :is(.spinner, .skeleton, .shimmer, .toast > *, .modal, .drawer, .popover, .btn, .orb, .aura),
+    :is(.spinner, .skeleton, .shimmer, .toast > *, .modal, .drawer, .popover, .btn, .orb, .aura, .sidebar),
     :is(.btn, .orb, .aura)::before, .aura::after {
       animation-duration: 0.01ms !important;
       animation-iteration-count: 1 !important;

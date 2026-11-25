@@ -216,7 +216,7 @@
 
   
   @media (prefers-reduced-motion: reduce) {
-    :is(.gl-spinner, .gl-skeleton, .gl-shimmer, .gl-toast > *, .gl-modal, .gl-drawer, .gl-popover, .gl-btn, .gl-orb, .gl-aura),
+    :is(.gl-spinner, .gl-skeleton, .gl-shimmer, .gl-toast > *, .gl-modal, .gl-drawer, .gl-popover, .gl-btn, .gl-orb, .gl-aura, .gl-sidebar),
     :is(.gl-btn, .gl-orb, .gl-aura)::before, .gl-aura::after {
       animation-duration: 0.01ms !important;
       animation-iteration-count: 1 !important;
@@ -846,7 +846,7 @@
 
   
   .gl-menu { display: grid; gap: 0.125rem; margin: 0; padding: 0.375rem; font-size: 0.875rem; list-style: none; }
-  .gl-menu > li > :is(a, button) {
+  .gl-menu > li > :is(a, button, label) {
     display: flex;
     align-items: center;
     gap: 0.75rem;
@@ -861,7 +861,7 @@
     text-decoration: none;
     cursor: pointer;
   }
-  .gl-menu > li > :is(a, button):is(:hover, :focus-visible, [aria-current], [aria-selected="true"]) { background: rgb(var(--gl-tint) / 0.08); }
+  .gl-menu > li > :is(a, button, label):is(:hover, :focus-visible, [aria-current], [aria-selected="true"]) { background: rgb(var(--gl-tint) / 0.08); }
   .gl-menu > li > * > .gl-meta { margin-inline-start: auto; }
   .gl-menu > [hidden] { display: none; }
   .gl-menu-title { display: flex; justify-content: space-between; padding: 0.5rem 0.75rem 0.25rem; }
@@ -925,6 +925,106 @@
   }
   .gl-dock > :hover { color: var(--gl-content); scale: 1.1; }
   .gl-dock > [aria-current] { background: rgb(var(--gl-tint) / 0.12); color: var(--gl-content); }
+
+  
+  .gl-sidebar {
+    position: relative;
+    flex: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    width: var(--sidebar-width, 17rem);
+    padding: 0.5rem;
+    font-size: 0.875rem;
+    transition: width var(--gl-duration-base);
+  }
+  .gl-sidebar[data-collapsed] { width: calc(3.5rem + 2px); }
+  .gl-sidebar > * { flex: none; }
+  .gl-sidebar .gl-menu { grid-template-columns: minmax(0, 1fr); padding: 0; } 
+  .gl-sidebar :is(.gl-sidebar-brand, .gl-sidebar-search, .gl-sidebar-row, .gl-menu-title, .gl-menu > li > *) { overflow: hidden; white-space: nowrap; }
+  .gl-sidebar :is(.gl-sidebar-brand, .gl-sidebar-search, .gl-sidebar-row, .gl-menu > li > *) > * { flex: none; }
+  
+  .gl-sidebar :is(.gl-sidebar-row, .gl-menu > li > *) > :nth-child(2) { flex: 1 1 auto; min-width: 0; }
+  .gl-sidebar :is(.gl-sidebar-row, .gl-menu > li > *) > :nth-child(2), .gl-sidebar-row small { overflow: hidden; text-overflow: ellipsis; }
+  .gl-sidebar-brand, .gl-sidebar-row { display: flex; align-items: center; gap: 0.75rem; padding: 0.25rem; color: inherit; text-decoration: none; }
+  .gl-sidebar-row small { display: block; margin-top: 0.125rem; }
+  .gl-sidebar-search {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    height: 2.25rem;
+    margin-block: 0.25rem;
+    padding-inline: calc(0.75rem - 1px) 0.5rem;
+    border: 1px solid var(--gl-border);
+    border-radius: var(--gl-radius-md);
+    background: rgb(var(--gl-tint) / 0.05);
+    color: var(--gl-muted);
+    cursor: text;
+    transition: border-color var(--gl-duration-fast);
+  }
+  .gl-sidebar-search:focus-within { border-color: var(--gl-primary); }
+  .gl-sidebar-search > input { flex: 1 0 6rem; width: 6rem; border: 0; background: none; color: var(--gl-content); font: inherit; outline: none; }
+  .gl-sidebar-search > input::-webkit-search-cancel-button { display: none; }
+  .gl-sidebar-end { display: grid; gap: 0.25rem; margin-top: auto; }
+
+  .gl-sidebar .gl-menu > li { position: relative; transition: opacity var(--gl-duration-fast); }
+  
+  .gl-sidebar .gl-menu > li:has(> [aria-current])::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    inset-inline-start: calc(-0.5rem - 1px);
+    translate: calc(-50% * var(--gl-dir, 1)) -50%;
+    width: 0.375rem;
+    height: 0.375rem;
+    border-radius: 50%;
+    background: var(--gl-primary);
+    box-shadow: 0 0 8px var(--gl-primary);
+  }
+  
+  .gl-sidebar .gl-menu > li[data-dim] { opacity: 0.35; }
+  ::highlight(gl-match) { color: var(--gl-primary); }
+  
+  .gl-sidebar .gl-menu > li[data-drop="before"] { box-shadow: 0 -2px 0 var(--gl-primary); }
+  .gl-sidebar .gl-menu > li[data-drop="after"] { box-shadow: 0 2px 0 var(--gl-primary); }
+
+  
+  .gl-sidebar .gl-menu > li[data-tip]::after { display: none; }
+  .gl-sidebar[data-collapsed] .gl-menu > li[data-tip]::after {
+    display: block;
+    inset: 50% auto auto;
+    inset-inline-start: calc(100% + 0.75rem);
+    translate: calc(-0.25rem * var(--gl-dir, 1)) -50%;
+  }
+  .gl-sidebar[data-collapsed] .gl-menu > li[data-tip]:is(:hover, :focus-within)::after { opacity: 1; translate: 0 -50%; }
+  .gl-sidebar[data-collapsed] .gl-menu > li[data-tip][data-tip-off]::after { opacity: 0; }
+  .gl-sidebar[data-collapsed] .gl-menu-title { height: 1px; margin: 0.5rem 0.75rem; padding: 0; background: var(--gl-border); }
+  .gl-sidebar[data-collapsed] .gl-avatar-group > :not(:first-child) { display: none; }
+
+  
+  .gl-sidebar-handle {
+    position: absolute;
+    inset-block: 0;
+    inset-inline-end: -0.5rem;
+    width: 1rem;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: ew-resize;
+    touch-action: none;
+    outline: none;
+  }
+  .gl-sidebar-handle::before {
+    content: "";
+    position: absolute;
+    inset: calc(50% - 1rem) calc(50% - 2px);
+    border-radius: 9999px;
+    background: var(--gl-content);
+    opacity: 0;
+    transition: opacity var(--gl-duration-fast);
+  }
+  .gl-sidebar-handle:is(:hover, :focus-visible)::before { opacity: 0.8; }
+  .gl-sidebar-handle:focus-visible::before { background: var(--gl-primary); }
 }
 
 @layer components {
@@ -1170,7 +1270,7 @@
   @media print {
     :root, .gl-popover, .gl-toast { --frost-min: 5; }
     *, ::before, ::after { box-shadow: none !important; text-shadow: none !important; backdrop-filter: none !important; animation: none !important; }
-    .gl-dock, .gl-toast, .gl-dotgrid::before, .gl-streaks::after, .gl-aura::before, .gl-aura::after, .gl-flare { display: none !important; }
+    .gl-dock, .gl-toast, .gl-sidebar-handle, .gl-dotgrid::before, .gl-streaks::after, .gl-aura::before, .gl-aura::after, .gl-flare { display: none !important; }
   }
 
   
