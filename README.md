@@ -192,11 +192,11 @@ To browse them all with live examples and copyable code, run the docs site (belo
 
 ## SwiftUI
 
-In Xcode, choose File → Add Package Dependencies and enter `https://github.com/huntercash/glimmer-ui`. Or in a package manifest (there is no tagged release yet, so track `main`):
+In Xcode, choose File → Add Package Dependencies and enter `https://github.com/huntercash/glimmer-ui`. Or in a package manifest:
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/huntercash/glimmer-ui", branch: "main"),
+    .package(url: "https://github.com/huntercash/glimmer-ui", from: "0.1.0"),
 ],
 targets: [
     .target(name: "App", dependencies: [.product(name: "Glimmer", package: "glimmer-ui")]),

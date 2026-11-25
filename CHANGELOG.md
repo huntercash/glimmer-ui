@@ -12,3 +12,4 @@ Each entry is a `## version · date` heading followed by a flat list. Start a li
 - Swift: a matching SwiftUI package with the same tokens, surfaces, components and charts.
 - Docs: the site at glimmer-ui.com, with one page per component and a live example on each.
 - Published to npm as `@glimmer-ui-core/glimmer`.
+- Swift: tagged `v0.1.0`, so the package manifest can pin a version instead of tracking `main`.

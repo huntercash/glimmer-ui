@@ -27,13 +27,10 @@ export default function SwiftUIPage() {
           tab(
             "Package.swift",
             "swift",
-            'dependencies: [\n    .package(url: "https://github.com/huntercash/glimmer-ui", branch: "main"),\n],\ntargets: [\n    .target(name: "App", dependencies: [.product(name: "Glimmer", package: "glimmer-ui")]),\n]',
+            'dependencies: [\n    .package(url: "https://github.com/huntercash/glimmer-ui", from: "0.1.0"),\n],\ntargets: [\n    .target(name: "App", dependencies: [.product(name: "Glimmer", package: "glimmer-ui")]),\n]',
           ),
         ]}
       />
-      <div className="alert alert-warning">
-        Pre-release: there is no tagged version yet, so the manifest tracks the main branch.
-      </div>
 
       <h2>2. Apply the theme once</h2>
       <p>This sets the dark scheme, the page colours, the bundled font and the accent for every native control.</p>
