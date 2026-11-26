@@ -67,7 +67,7 @@ ${colors.map(([k]) => `  --color-${k}: var(--gl-${k});`).join("\n")}
 // One explicit rule per colour, listing every component that takes a colour suffix (btn-primary, badge-success...).
 // Explicit on purpose: an earlier substring selector also tinted unrelated classes such as Tailwind's text-primary.
 const colourable = ["glass", "aura", "flare", "btn", "link", "checkbox", "radio", "toggle", "range", "rating", "card", "badge", "status",
-  "stat", "timeline", "alert", "progress", "radial", "orb", "step", "search", "navbar", "dock", "modal", "drawer", "popover", "mockup-window"];
+  "stat", "timeline", "alert", "progress", "radial", "orb", "step", "search", "navbar", "dock", "modal", "drawer", "popover", "mockup-window", "widget"];
 out("css/colors.css", `/* ${banner} Must load last. */
 @layer components {
 ${["primary", "secondary", "success", "warning", "danger"].map((c) => `  ${colourable.map((b) => `.${b}-${c}`).join(", ")} { --c: var(--gl-${c}); }`).join("\n")}

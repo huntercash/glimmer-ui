@@ -31,6 +31,6 @@
     .tab:is([aria-selected="true"], [aria-current]), .dock > [aria-current], .menu > li > [aria-current] { outline: 2px solid Highlight; outline-offset: -2px; }
     .step[data-done]::before, .timeline > [data-done]::before { border-color: Highlight; background: Highlight; color: HighlightText; }
     .btn-primary, .btn-secondary, .btn-success, .btn-warning, .btn-danger { border-color: ButtonText; }
-    .alert, .card, .glass, .stat, .navbar, .modal, .drawer, .popover { border-color: CanvasText; }
+    .alert, .card, .glass, .stat, .navbar, .modal, .drawer, .popover, .widget, .widget-pane { border-color: CanvasText; }
   }
 }

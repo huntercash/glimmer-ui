@@ -23,6 +23,9 @@
 @utility file-input { color: var(--gl-muted); font-size: 0.8125rem; }
 @utility card-title { font-size: 1.0625rem; font-weight: 600; letter-spacing: -0.01em; }
 @utility card-actions { display: flex; justify-content: flex-end; gap: 0.5rem; margin-top: auto; padding-top: 0.5rem; }
+@utility widget-title { color: var(--gl-content); font-size: 1.375rem; font-weight: 700; letter-spacing: -0.02em; line-height: 1.15; }
+@utility widget-pane { --frost: 1; --depth: 0 var(--lift) 1.25rem -0.5rem rgb(0 0 0 / 0.6); position: relative; align-self: stretch; aspect-ratio: 4 / 3; margin-bottom: 0.75rem; overflow: hidden; border-radius: 1.25rem; translate: 0 calc(-1 * var(--lift)); }
+@utility widget-tilt { transform: perspective(70rem) rotateX(26deg) rotateZ(calc(-12deg * var(--gl-dir, 1))); }
 @utility avatar-sm { width: 2rem; height: 2rem; font-size: 0.75rem; }
 @utility avatar-lg { width: 3.5rem; height: 3.5rem; font-size: 1.125rem; }
 @utility avatar-group { display: inline-flex; }
@@ -76,6 +79,7 @@
 @utility drawer-primary { --c: var(--gl-primary); }
 @utility popover-primary { --c: var(--gl-primary); }
 @utility mockup-window-primary { --c: var(--gl-primary); }
+@utility widget-primary { --c: var(--gl-primary); }
 @utility glass-secondary { --c: var(--gl-secondary); }
 @utility aura-secondary { --c: var(--gl-secondary); }
 @utility flare-secondary { --c: var(--gl-secondary); }
@@ -102,6 +106,7 @@
 @utility drawer-secondary { --c: var(--gl-secondary); }
 @utility popover-secondary { --c: var(--gl-secondary); }
 @utility mockup-window-secondary { --c: var(--gl-secondary); }
+@utility widget-secondary { --c: var(--gl-secondary); }
 @utility glass-success { --c: var(--gl-success); }
 @utility aura-success { --c: var(--gl-success); }
 @utility flare-success { --c: var(--gl-success); }
@@ -128,6 +133,7 @@
 @utility drawer-success { --c: var(--gl-success); }
 @utility popover-success { --c: var(--gl-success); }
 @utility mockup-window-success { --c: var(--gl-success); }
+@utility widget-success { --c: var(--gl-success); }
 @utility glass-warning { --c: var(--gl-warning); }
 @utility aura-warning { --c: var(--gl-warning); }
 @utility flare-warning { --c: var(--gl-warning); }
@@ -154,6 +160,7 @@
 @utility drawer-warning { --c: var(--gl-warning); }
 @utility popover-warning { --c: var(--gl-warning); }
 @utility mockup-window-warning { --c: var(--gl-warning); }
+@utility widget-warning { --c: var(--gl-warning); }
 @utility glass-danger { --c: var(--gl-danger); }
 @utility aura-danger { --c: var(--gl-danger); }
 @utility flare-danger { --c: var(--gl-danger); }
@@ -180,3 +187,4 @@
 @utility drawer-danger { --c: var(--gl-danger); }
 @utility popover-danger { --c: var(--gl-danger); }
 @utility mockup-window-danger { --c: var(--gl-danger); }
+@utility widget-danger { --c: var(--gl-danger); }

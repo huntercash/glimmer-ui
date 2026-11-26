@@ -117,6 +117,19 @@ struct GalleryContent: View {
                 }
             }
 
+            section("Widget") {
+                HStack(spacing: 40) {
+                    ForEach([false, true], id: \.self) { tilted in
+                        Widget("Night walk", eyebrow: "Photo of the day", subtitle: "Shibuya, after the rain", tilted: tilted) {
+                            LinearGradient(colors: [Tokens.secondary, Tokens.primary], startPoint: .top, endPoint: .bottom)
+                                .overlay(Image(systemName: "building.2.fill").font(.system(size: 64)).foregroundStyle(.white.opacity(0.85)))
+                        }
+                        .frame(width: 260)
+                    }
+                }
+                .padding(.vertical, 30)
+            }
+
             section("Feedback") {
                 Banner("Heads up — a new version is available.")
                 Banner("Saved. Your changes are live.", color: Tokens.success)
