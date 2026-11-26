@@ -7,8 +7,7 @@
 @utility frost-3 { --frost: 3; }
 @utility frost-4 { --frost: 4; }
 @utility frost-5 { --frost: 5; }
-@utility btn-outline { background: transparent; backdrop-filter: none; box-shadow: none; }
-@utility btn-ghost { background: transparent; backdrop-filter: none; box-shadow: none; color: color-mix(in oklab, var(--c), var(--gl-content) var(--gl-ink)); }
+@utility btn-ghost { border-color: transparent; background: transparent; backdrop-filter: none; box-shadow: none; color: color-mix(in oklab, var(--c), var(--gl-content) var(--gl-ink)); }
 @utility btn-sm { height: 2rem; padding-inline: 0.75rem; border-radius: var(--gl-radius-sm); font-size: 0.8125rem; }
 @utility btn-lg { height: 3rem; padding-inline: 1.5rem; font-size: 1rem; }
 @utility btn-circle { aspect-ratio: 1; padding: 0; border-radius: 9999px; }

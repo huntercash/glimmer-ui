@@ -36,15 +36,15 @@ private struct GlimmerButton: View {
     @State private var hovering = false
     @Environment(\.isEnabled) private var isEnabled
     @Environment(\.glimmerFrost) private var frost
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     // Which layers this kind draws, and its colour.
     private var parts: (color: Color, body: Bool, ring: Bool) {
         switch kind {
         case .neutral: (Tokens.content, true, true)
-        case .glass(let c): (c, true, true)
+        case .glass(let c), .filled(let c): (c, true, true) // .filled is the deprecated name for .glass
         case .outline(let c): (c, false, true)
         case .ghost(let c): (c, false, false)
-        default: (Tokens.content, true, true) // the deprecated .filled
         }
     }
 
@@ -59,6 +59,8 @@ private struct GlimmerButton: View {
             .padding(.horizontal, 16)
             .frame(minHeight: 40)
             .foregroundStyle(hasRing ? Tokens.content : c)
+            // On clear glass, a soft halo in the page colour keeps the label readable over whatever shows through.
+            .shadow(color: hasBody ? Tokens.base.opacity(0.85 * r) : .clear, radius: 4)
             .background {
                 if hasBody {
                     ZStack {
@@ -84,13 +86,14 @@ private struct GlimmerButton: View {
                     ], startPoint: .topLeading, endPoint: .bottomTrailing), lineWidth: 1.5)
                 }
             }
-            .shadow(color: hasBody ? c.opacity(hovering ? 0.7 : 0.45) : .clear, radius: hovering ? 11 : 12, y: hovering ? 0 : 6)
+            // a soft drop in the colour; on hover it becomes a glow all round
+            .shadow(color: hasBody ? c.opacity(hovering ? 0.6 : 0.3) : .clear, radius: hovering ? 11 : 8, y: hovering ? 0 : 6)
             .contentShape(shape)
             .scaleEffect(configuration.isPressed ? 0.97 : 1)
             .opacity(isEnabled ? 1 : 0.5)
             .onHover { hovering = $0 }
-            .animation(.easeOut(duration: Tokens.durationFast), value: configuration.isPressed)
-            .animation(.easeOut(duration: Tokens.durationFast), value: hovering)
+            .animation(reduceMotion ? nil : .easeOut(duration: Tokens.durationFast), value: configuration.isPressed)
+            .animation(reduceMotion ? nil : .easeOut(duration: Tokens.durationFast), value: hovering)
     }
 }
 
