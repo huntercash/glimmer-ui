@@ -8,9 +8,9 @@ export const actions: Entry[] = [
     blurb: "Buttons let people take an action or make a choice.",
     colors: "btn",
     classes: [
-      ["btn", "component", "A button. Works on <button>, <a> and <input type=submit>"],
-      ["btn-outline", "modifier", "Transparent with a coloured border"],
-      ["btn-ghost", "modifier", "No border or fill until hovered"],
+      ["btn", "component", "A glass button with an edge light; the colour class sets the light. Follows the frost level. Works on <button>, <a> and <input type=submit>"],
+      ["btn-outline", "modifier", "Edge light only, no glass body"],
+      ["btn-ghost", "modifier", "No ring or body; a faint tint of its colour on hover"],
       ["btn-sm", "size", "Small"],
       ["btn-lg", "size", "Large"],
       ["btn-circle", "modifier", "A round, square-proportioned button for a single icon"],

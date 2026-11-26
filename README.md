@@ -13,7 +13,7 @@
 
 **Docs and live examples: [glimmer-ui.com](https://glimmer-ui.com)**
 
-![Glimmer's home page in the dark theme: a glass navbar, the headline "Glass that glows." and glowing buttons](.github/screenshots/hero-dark.jpg)
+![Glimmer's home page in the dark theme: a glass navbar, the headline "Glass that glows." and glass buttons with an edge light](.github/screenshots/hero-dark.jpg)
 
 Glass-and-glow UI for the web and Apple platforms. One set of design tokens, two packages in one repository:
 
@@ -26,7 +26,7 @@ Glass-and-glow UI for the web and Apple platforms. One set of design tokens, two
 
 | Light theme, frosted glass | Every component, live |
 | --- | --- |
-| ![The same page in the light theme with the frost turned up](.github/screenshots/hero-light.jpg) | ![The Components page: buttons in five colours and a joined button group](.github/screenshots/components.jpg) |
+| ![The same page in the light theme with the frost turned up](.github/screenshots/hero-light.jpg) | ![The Components page: glass buttons with an edge light in six colours, and a joined button group](.github/screenshots/components.jpg) |
 
 ![A candlestick chart with 5- and 20-day moving averages and volume bars](.github/screenshots/chart.jpg)
 

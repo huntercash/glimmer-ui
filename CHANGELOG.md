@@ -11,6 +11,8 @@ Each entry is a `## version · date` heading followed by a flat list. Start a li
 - Menu rows can be a `<label>`, so a row can hold a toggle.
 - Widget: a thick glass slab with a clear pane lifted off its top for a picture, and a caption below. `widget-tilt` lays it back in perspective.
 - Swift: `Widget`, the same slab in SwiftUI, with `thickness`, `lift` and `tilted`.
+- Buttons are glass now: the colour lives in an edge light round the rim instead of a solid fill, and the body follows the frost level. `btn-outline` keeps the ring without the glass; `btn-ghost` keeps neither.
+- Swift: the button style matches, with `.glass(color)` plus `.success` and `.warning`. `.filled` still compiles but is deprecated.
 
 ## 0.1.0 · 2026-11-25
 
