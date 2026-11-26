@@ -30,7 +30,8 @@
     .status, .rating > input, .radial, .orb::before { forced-color-adjust: none; }
     .tab:is([aria-selected="true"], [aria-current]), .dock > [aria-current], .menu > li > [aria-current] { outline: 2px solid Highlight; outline-offset: -2px; }
     .step[data-done]::before, .timeline > [data-done]::before { border-color: Highlight; background: Highlight; color: HighlightText; }
-    .btn-primary, .btn-secondary, .btn-success, .btn-warning, .btn-danger { border-color: ButtonText; }
+    .btn:not(.btn-ghost) { border-color: ButtonText; }
+    .btn::after { display: none; }
     .alert, .card, .glass, .stat, .navbar, .modal, .drawer, .popover, .widget, .widget-pane { border-color: CanvasText; }
   }
 }

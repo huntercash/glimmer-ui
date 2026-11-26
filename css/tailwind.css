@@ -7,13 +7,8 @@
 @utility frost-3 { --frost: 3; }
 @utility frost-4 { --frost: 4; }
 @utility frost-5 { --frost: 5; }
-@utility btn-primary { border-color: transparent; background: linear-gradient(color-mix(in oklab, var(--c), white 14%), var(--c)); box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.4), 0 6px 24px -8px var(--c); color: var(--gl-on-c); --c: var(--gl-primary); }
-@utility btn-secondary { border-color: transparent; background: linear-gradient(color-mix(in oklab, var(--c), white 14%), var(--c)); box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.4), 0 6px 24px -8px var(--c); color: var(--gl-on-c); --c: var(--gl-secondary); }
-@utility btn-success { border-color: transparent; background: linear-gradient(color-mix(in oklab, var(--c), white 14%), var(--c)); box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.4), 0 6px 24px -8px var(--c); color: var(--gl-on-c); --c: var(--gl-success); }
-@utility btn-warning { border-color: transparent; background: linear-gradient(color-mix(in oklab, var(--c), white 14%), var(--c)); box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.4), 0 6px 24px -8px var(--c); color: var(--gl-on-c); --c: var(--gl-warning); }
-@utility btn-danger { border-color: transparent; background: linear-gradient(color-mix(in oklab, var(--c), white 14%), var(--c)); box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.4), 0 6px 24px -8px var(--c); color: var(--gl-on-c); --c: var(--gl-danger); }
-@utility btn-outline { border-color: color-mix(in oklab, var(--c) 55%, transparent); background: transparent; box-shadow: none; color: color-mix(in oklab, var(--c), var(--gl-content) var(--gl-ink)); }
-@utility btn-ghost { border-color: transparent; background: transparent; box-shadow: none; color: var(--c); }
+@utility btn-outline { background: transparent; backdrop-filter: none; box-shadow: none; }
+@utility btn-ghost { background: transparent; backdrop-filter: none; box-shadow: none; color: color-mix(in oklab, var(--c), var(--gl-content) var(--gl-ink)); }
 @utility btn-sm { height: 2rem; padding-inline: 0.75rem; border-radius: var(--gl-radius-sm); font-size: 0.8125rem; }
 @utility btn-lg { height: 3rem; padding-inline: 1.5rem; font-size: 1rem; }
 @utility btn-circle { aspect-ratio: 1; padding: 0; border-radius: 9999px; }
@@ -56,6 +51,7 @@
 @utility glass-primary { --c: var(--gl-primary); }
 @utility aura-primary { --c: var(--gl-primary); }
 @utility flare-primary { --c: var(--gl-primary); }
+@utility btn-primary { --c: var(--gl-primary); }
 @utility link-primary { --c: var(--gl-primary); }
 @utility checkbox-primary { --c: var(--gl-primary); }
 @utility radio-primary { --c: var(--gl-primary); }
@@ -83,6 +79,7 @@
 @utility glass-secondary { --c: var(--gl-secondary); }
 @utility aura-secondary { --c: var(--gl-secondary); }
 @utility flare-secondary { --c: var(--gl-secondary); }
+@utility btn-secondary { --c: var(--gl-secondary); }
 @utility link-secondary { --c: var(--gl-secondary); }
 @utility checkbox-secondary { --c: var(--gl-secondary); }
 @utility radio-secondary { --c: var(--gl-secondary); }
@@ -110,6 +107,7 @@
 @utility glass-success { --c: var(--gl-success); }
 @utility aura-success { --c: var(--gl-success); }
 @utility flare-success { --c: var(--gl-success); }
+@utility btn-success { --c: var(--gl-success); }
 @utility link-success { --c: var(--gl-success); }
 @utility checkbox-success { --c: var(--gl-success); }
 @utility radio-success { --c: var(--gl-success); }
@@ -137,6 +135,7 @@
 @utility glass-warning { --c: var(--gl-warning); }
 @utility aura-warning { --c: var(--gl-warning); }
 @utility flare-warning { --c: var(--gl-warning); }
+@utility btn-warning { --c: var(--gl-warning); }
 @utility link-warning { --c: var(--gl-warning); }
 @utility checkbox-warning { --c: var(--gl-warning); }
 @utility radio-warning { --c: var(--gl-warning); }
@@ -164,6 +163,7 @@
 @utility glass-danger { --c: var(--gl-danger); }
 @utility aura-danger { --c: var(--gl-danger); }
 @utility flare-danger { --c: var(--gl-danger); }
+@utility btn-danger { --c: var(--gl-danger); }
 @utility link-danger { --c: var(--gl-danger); }
 @utility checkbox-danger { --c: var(--gl-danger); }
 @utility radio-danger { --c: var(--gl-danger); }

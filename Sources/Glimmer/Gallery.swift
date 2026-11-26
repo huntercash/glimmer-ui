@@ -67,6 +67,11 @@ struct GalleryContent: View {
                     Button("Secondary") { /* gallery demo: no action */ }.buttonStyle(.glimmer(.secondary))
                 }
                 HStack {
+                    Button("Success") { /* gallery demo: no action */ }.buttonStyle(.glimmer(.success))
+                    Button("Warning") { /* gallery demo: no action */ }.buttonStyle(.glimmer(.warning))
+                    Button("Danger") { /* gallery demo: no action */ }.buttonStyle(.glimmer(.danger))
+                }
+                HStack {
                     Button("Outline") { /* gallery demo: no action */ }.buttonStyle(.glimmer(.outline(Tokens.primary)))
                     Button("Ghost") { /* gallery demo: no action */ }.buttonStyle(.glimmer(.ghost(Tokens.secondary)))
                     Button("Disabled") { /* gallery demo: no action */ }.buttonStyle(.glimmer).disabled(true)
