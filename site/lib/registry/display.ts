@@ -1,5 +1,6 @@
 import { type Entry, html } from "./types.ts";
 
+
 export const display: Entry[] = [
   {
     slug: "card",
@@ -37,6 +38,48 @@ export const display: Entry[] = [
           <article class="card card-success" style="max-width: 14rem"><p class="card-title">Fresh</p><p>card-success</p></article>`,
         swift: `GroupBox("Warm") { Text("Tinted") }
     .groupBoxStyle(.glimmer(tint: Tokens.primary))`,
+      },
+    ],
+  },
+  {
+    slug: "widget",
+    name: "Widget",
+    category: "Data display",
+    blurb: "A thick glass slab with a clear pane lifted off its top, holding a picture, and a caption below.",
+    colors: "widget",
+    classes: [
+      ["widget", "component", "The slab. Set --thick for its edge and --lift for how far the pane floats"],
+      ["widget-pane", "part", "The raised glass pane. An <img>, <video> or <canvas> inside fills it"],
+      ["widget-title", "part", "Heading text. Other paragraphs become the muted subtitle; use meta for an eyebrow"],
+      ["widget-tilt", "modifier", "Lays the widget back in perspective"],
+    ],
+    examples: [
+      {
+        title: "Widget",
+        html: html`
+          <article class="widget" style="width: 17rem">
+            <div class="widget-pane"><img src="/night-walk.svg" alt="A city street at night, lit windows reflected on wet tarmac"></div>
+            <p class="meta">Photo of the day</p>
+            <p class="widget-title">Night walk</p>
+            <p>Shibuya, after the rain</p>
+          </article>`,
+        swift: `Widget("Night walk", eyebrow: "Photo of the day", subtitle: "Shibuya, after the rain") {
+    Image("night-walk").resizable()
+}
+.frame(width: 272)`,
+      },
+      {
+        title: "Tilted and tinted",
+        tall: true,
+        html: html`
+          <article class="widget widget-tilt widget-primary" style="width: 17rem; --thick: 0.75rem">
+            <div class="widget-pane"><img src="/night-walk.svg" alt="A city street at night, lit windows reflected on wet tarmac"></div>
+            <p class="widget-title">Night walk</p>
+            <p>Shibuya, after the rain</p>
+          </article>`,
+        swift: `Widget("Night walk", subtitle: "Shibuya, after the rain", tint: Tokens.primary, thickness: 12, tilted: true) {
+    Image("night-walk").resizable()
+}`,
       },
     ],
   },

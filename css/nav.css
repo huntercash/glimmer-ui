@@ -55,7 +55,7 @@
   /* menu — <ul class="menu"><li><a>Item <span class="meta">12</span></a></li></ul>
      Plain by default; add .glass, or make it a .popover for a dropdown. */
   .menu { display: grid; gap: 0.125rem; margin: 0; padding: 0.375rem; font-size: 0.875rem; list-style: none; }
-  .menu > li > :is(a, button) {
+  .menu > li > :is(a, button, label) {
     display: flex;
     align-items: center;
     gap: 0.75rem;
@@ -70,7 +70,7 @@
     text-decoration: none;
     cursor: pointer;
   }
-  .menu > li > :is(a, button):is(:hover, :focus-visible, [aria-current], [aria-selected="true"]) { background: rgb(var(--gl-tint) / 0.08); }
+  .menu > li > :is(a, button, label):is(:hover, :focus-visible, [aria-current], [aria-selected="true"]) { background: rgb(var(--gl-tint) / 0.08); }
   .menu > li > * > .meta { margin-inline-start: auto; }
   .menu > [hidden] { display: none; }
   .menu-title { display: flex; justify-content: space-between; padding: 0.5rem 0.75rem 0.25rem; }
@@ -134,4 +134,118 @@
   }
   .dock > :hover { color: var(--gl-content); scale: 1.1; }
   .dock > [aria-current] { background: rgb(var(--gl-tint) / 0.12); color: var(--gl-content); }
+
+  /* sidebar — a column of menus that folds down to a rail of icons. Add .glass for a glass panel.
+     <nav class="sidebar glass" aria-label="Main">             add data-collapsed to start as the rail
+       <a class="sidebar-brand" href="/"><img class="avatar avatar-sm"> <strong>Vela</strong></a>
+       <label class="sidebar-search"><svg/><input type="search" placeholder="Search"><kbd class="kbd">⌘K</kbd></label>
+       <span class="menu-title meta">Pinned</span>
+       <ul class="menu" aria-label="Pinned">
+         <li data-tip="Home" draggable="true"><a href="/" aria-current="page"><svg/> <span>Home</span> <span class="badge">4</span></a></li>
+       </ul>
+       <div class="sidebar-end"><div class="sidebar-row">…</div></div>
+       <button class="sidebar-handle" aria-label="Collapse sidebar" aria-expanded="true"></button>
+     </nav>
+     In a row the icon comes first and the label second, in a <span>; anything after is pushed to the end.
+     Rows clip themselves, so the rail needs no second set of markup: it is the same rows, cut off after the icon.
+     behaviors.js does the rest: the handle (click or drag), ⌘K and the search, drag to reorder, and data-tip on the rail. */
+  .sidebar {
+    position: relative;
+    flex: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    width: var(--sidebar-width, 17rem);
+    padding: 0.5rem;
+    font-size: 0.875rem;
+    transition: width var(--gl-duration-base);
+  }
+  .sidebar[data-collapsed] { width: calc(3.5rem + 2px); }
+  .sidebar > * { flex: none; }
+  .sidebar .menu { grid-template-columns: minmax(0, 1fr); padding: 0; } /* or the rows would widen the rail to fit their labels */
+  .sidebar :is(.sidebar-brand, .sidebar-search, .sidebar-row, .menu-title, .menu > li > *) { overflow: hidden; white-space: nowrap; }
+  .sidebar :is(.sidebar-brand, .sidebar-search, .sidebar-row, .menu > li > *) > * { flex: none; }
+  /* The label takes the room that is left and is cut short with an ellipsis, so what follows it always fits.
+     On the rail it shrinks to nothing, and the gaps alone push what follows past the edge. */
+  .sidebar :is(.sidebar-row, .menu > li > *) > :nth-child(2) { flex: 1 1 auto; min-width: 0; }
+  .sidebar :is(.sidebar-row, .menu > li > *) > :nth-child(2), .sidebar-row small { overflow: hidden; text-overflow: ellipsis; }
+  .sidebar-brand, .sidebar-row { display: flex; align-items: center; gap: 0.75rem; padding: 0.25rem; color: inherit; text-decoration: none; }
+  .sidebar-row small { display: block; margin-top: 0.125rem; }
+  .sidebar-search {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    height: 2.25rem;
+    margin-block: 0.25rem;
+    padding-inline: calc(0.75rem - 1px) 0.5rem;
+    border: 1px solid var(--gl-border);
+    border-radius: var(--gl-radius-md);
+    background: rgb(var(--gl-tint) / 0.05);
+    color: var(--gl-muted);
+    cursor: text;
+    transition: border-color var(--gl-duration-fast);
+  }
+  .sidebar-search:focus-within { border-color: var(--gl-primary); }
+  .sidebar-search > input { flex: 1 0 6rem; width: 6rem; border: 0; background: none; color: var(--gl-content); font: inherit; outline: none; }
+  .sidebar-search > input::-webkit-search-cancel-button { display: none; }
+  .sidebar-end { display: grid; gap: 0.25rem; margin-top: auto; }
+
+  .sidebar .menu > li { position: relative; transition: opacity var(--gl-duration-fast); }
+  /* the lit dot on the sidebar's edge beside the current page */
+  .sidebar .menu > li:has(> [aria-current])::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    inset-inline-start: calc(-0.5rem - 1px);
+    translate: calc(-50% * var(--gl-dir, 1)) -50%;
+    width: 0.375rem;
+    height: 0.375rem;
+    border-radius: 50%;
+    background: var(--gl-primary);
+    box-shadow: 0 0 8px var(--gl-primary);
+  }
+  /* searching: rows that do not match fade, and the matching letters light up */
+  .sidebar .menu > li[data-dim] { opacity: 0.35; }
+  ::highlight(gl-match) { color: var(--gl-primary); }
+  /* dragging: a line where the row will land */
+  .sidebar .menu > li[data-drop="before"] { box-shadow: 0 -2px 0 var(--gl-primary); }
+  .sidebar .menu > li[data-drop="after"] { box-shadow: 0 2px 0 var(--gl-primary); }
+
+  /* The rail. Tooltips sit on the <li>, beside the icon, and only show here: when open, the label is already there. */
+  .sidebar .menu > li[data-tip]::after { display: none; }
+  .sidebar[data-collapsed] .menu > li[data-tip]::after {
+    display: block;
+    inset: 50% auto auto;
+    inset-inline-start: calc(100% + 0.75rem);
+    translate: calc(-0.25rem * var(--gl-dir, 1)) -50%;
+  }
+  .sidebar[data-collapsed] .menu > li[data-tip]:is(:hover, :focus-within)::after { opacity: 1; translate: 0 -50%; }
+  .sidebar[data-collapsed] .menu > li[data-tip][data-tip-off]::after { opacity: 0; }
+  .sidebar[data-collapsed] .menu-title { height: 1px; margin: 0.5rem 0.75rem; padding: 0; background: var(--gl-border); }
+  .sidebar[data-collapsed] .avatar-group > :not(:first-child) { display: none; }
+
+  /* The strip along the trailing edge: click it to fold or unfold, or drag it. */
+  .sidebar-handle {
+    position: absolute;
+    inset-block: 0;
+    inset-inline-end: -0.5rem;
+    width: 1rem;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: ew-resize;
+    touch-action: none;
+    outline: none;
+  }
+  .sidebar-handle::before {
+    content: "";
+    position: absolute;
+    inset: calc(50% - 1rem) calc(50% - 2px);
+    border-radius: 9999px;
+    background: var(--gl-content);
+    opacity: 0;
+    transition: opacity var(--gl-duration-fast);
+  }
+  .sidebar-handle:is(:hover, :focus-visible)::before { opacity: 0.8; }
+  .sidebar-handle:focus-visible::before { background: var(--gl-primary); }
 }

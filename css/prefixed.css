@@ -110,8 +110,9 @@
   }
 
   
-  :where(.gl-glass, .gl-card, .gl-search, .gl-navbar, .gl-dock, .gl-alert, .gl-stat, .gl-modal, .gl-drawer, .gl-popover, .gl-mockup-window) {
+  :where(.gl-glass, .gl-card, .gl-search, .gl-navbar, .gl-dock, .gl-alert, .gl-stat, .gl-modal, .gl-drawer, .gl-popover, .gl-mockup-window, .gl-widget, .gl-widget-pane) {
     --c: var(--gl-secondary);
+    --depth: 0 0 #0000; 
     --px: 72%;
     --py: 88%;
     --n: calc(clamp(var(--frost-min, 1), var(--frost, 3), 5) - 1); 
@@ -142,6 +143,7 @@
       inset 1.5px -1.5px 1px -0.5px rgb(255 255 255 / calc(var(--r) * 0.65)),
       inset -8px 8px 12px -8px color-mix(in oklab, var(--gl-secondary) calc(var(--r) * 90%), transparent),
       inset 8px -8px 12px -8px color-mix(in oklab, var(--gl-primary) calc(var(--r) * 90%), transparent),
+      var(--depth),
       0 14px 40px -14px rgb(0 0 0 / var(--gl-shadow)),
       0 10px 70px -22px color-mix(in oklab, var(--c) calc(var(--l) * 100%), transparent);     
     color: var(--gl-content);
@@ -216,7 +218,7 @@
 
   
   @media (prefers-reduced-motion: reduce) {
-    :is(.gl-spinner, .gl-skeleton, .gl-shimmer, .gl-toast > *, .gl-modal, .gl-drawer, .gl-popover, .gl-btn, .gl-orb, .gl-aura),
+    :is(.gl-spinner, .gl-skeleton, .gl-shimmer, .gl-toast > *, .gl-modal, .gl-drawer, .gl-popover, .gl-btn, .gl-orb, .gl-aura, .gl-sidebar, .gl-widget),
     :is(.gl-btn, .gl-orb, .gl-aura)::before, .gl-aura::after {
       animation-duration: 0.01ms !important;
       animation-iteration-count: 1 !important;
@@ -475,6 +477,54 @@
   }
   .gl-card-title { font-size: 1.0625rem; font-weight: 600; letter-spacing: -0.01em; }
   .gl-card-actions { display: flex; justify-content: flex-end; gap: 0.5rem; margin-top: auto; padding-top: 0.5rem; }
+
+  
+  .gl-widget {
+    --thick: 0.5rem;
+    --lift: 0.375rem;
+    
+    --depth: 0 var(--thick) 0 -1px color-mix(in oklab, var(--gl-base) 75%, transparent),
+      0 var(--thick) 0 0 color-mix(in oklab, var(--c) 30%, rgb(var(--gl-tint) / 0.22));
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    margin-bottom: var(--thick);
+    padding: 0.75rem 0.75rem 1.5rem;
+    border-radius: 2rem;
+    text-align: center;
+  }
+  .gl-widget > :where(p) { margin: 0; }
+  .gl-widget > :where(p:not([class])) { color: var(--gl-muted); font-size: 0.875rem; font-weight: 600; }
+  .gl-widget-title { color: var(--gl-content); font-size: 1.375rem; font-weight: 700; letter-spacing: -0.02em; line-height: 1.15; }
+  .gl-widget-pane {
+    --frost: 1;
+    --depth: 0 var(--lift) 1.25rem -0.5rem rgb(0 0 0 / 0.6);
+    position: relative;
+    align-self: stretch;
+    aspect-ratio: 4 / 3;
+    margin-bottom: 0.75rem;
+    overflow: hidden;
+    border-radius: 1.25rem;
+    translate: 0 calc(-1 * var(--lift));
+  }
+  .gl-widget-pane > :is(img, picture, video, canvas) { display: block; width: 100%; height: 100%; object-fit: cover; }
+  
+  .gl-widget-pane::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background:
+      linear-gradient(165deg, rgb(255 255 255 / 0.24), transparent 38%),
+      radial-gradient(120% 55% at 50% 115%, rgb(0 0 0 / 0.35), transparent 70%);
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.6),
+      inset 0 0 0 1px rgb(255 255 255 / 0.12),
+      inset 0 -12px 18px -12px rgb(0 0 0 / 0.6);
+    pointer-events: none;
+  }
+  .gl-widget-tilt { transform: perspective(70rem) rotateX(26deg) rotateZ(calc(-12deg * var(--gl-dir, 1))); }
 
   .gl-badge {
     --c: var(--gl-muted);
@@ -846,7 +896,7 @@
 
   
   .gl-menu { display: grid; gap: 0.125rem; margin: 0; padding: 0.375rem; font-size: 0.875rem; list-style: none; }
-  .gl-menu > li > :is(a, button) {
+  .gl-menu > li > :is(a, button, label) {
     display: flex;
     align-items: center;
     gap: 0.75rem;
@@ -861,7 +911,7 @@
     text-decoration: none;
     cursor: pointer;
   }
-  .gl-menu > li > :is(a, button):is(:hover, :focus-visible, [aria-current], [aria-selected="true"]) { background: rgb(var(--gl-tint) / 0.08); }
+  .gl-menu > li > :is(a, button, label):is(:hover, :focus-visible, [aria-current], [aria-selected="true"]) { background: rgb(var(--gl-tint) / 0.08); }
   .gl-menu > li > * > .gl-meta { margin-inline-start: auto; }
   .gl-menu > [hidden] { display: none; }
   .gl-menu-title { display: flex; justify-content: space-between; padding: 0.5rem 0.75rem 0.25rem; }
@@ -925,6 +975,106 @@
   }
   .gl-dock > :hover { color: var(--gl-content); scale: 1.1; }
   .gl-dock > [aria-current] { background: rgb(var(--gl-tint) / 0.12); color: var(--gl-content); }
+
+  
+  .gl-sidebar {
+    position: relative;
+    flex: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    width: var(--sidebar-width, 17rem);
+    padding: 0.5rem;
+    font-size: 0.875rem;
+    transition: width var(--gl-duration-base);
+  }
+  .gl-sidebar[data-collapsed] { width: calc(3.5rem + 2px); }
+  .gl-sidebar > * { flex: none; }
+  .gl-sidebar .gl-menu { grid-template-columns: minmax(0, 1fr); padding: 0; } 
+  .gl-sidebar :is(.gl-sidebar-brand, .gl-sidebar-search, .gl-sidebar-row, .gl-menu-title, .gl-menu > li > *) { overflow: hidden; white-space: nowrap; }
+  .gl-sidebar :is(.gl-sidebar-brand, .gl-sidebar-search, .gl-sidebar-row, .gl-menu > li > *) > * { flex: none; }
+  
+  .gl-sidebar :is(.gl-sidebar-row, .gl-menu > li > *) > :nth-child(2) { flex: 1 1 auto; min-width: 0; }
+  .gl-sidebar :is(.gl-sidebar-row, .gl-menu > li > *) > :nth-child(2), .gl-sidebar-row small { overflow: hidden; text-overflow: ellipsis; }
+  .gl-sidebar-brand, .gl-sidebar-row { display: flex; align-items: center; gap: 0.75rem; padding: 0.25rem; color: inherit; text-decoration: none; }
+  .gl-sidebar-row small { display: block; margin-top: 0.125rem; }
+  .gl-sidebar-search {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    height: 2.25rem;
+    margin-block: 0.25rem;
+    padding-inline: calc(0.75rem - 1px) 0.5rem;
+    border: 1px solid var(--gl-border);
+    border-radius: var(--gl-radius-md);
+    background: rgb(var(--gl-tint) / 0.05);
+    color: var(--gl-muted);
+    cursor: text;
+    transition: border-color var(--gl-duration-fast);
+  }
+  .gl-sidebar-search:focus-within { border-color: var(--gl-primary); }
+  .gl-sidebar-search > input { flex: 1 0 6rem; width: 6rem; border: 0; background: none; color: var(--gl-content); font: inherit; outline: none; }
+  .gl-sidebar-search > input::-webkit-search-cancel-button { display: none; }
+  .gl-sidebar-end { display: grid; gap: 0.25rem; margin-top: auto; }
+
+  .gl-sidebar .gl-menu > li { position: relative; transition: opacity var(--gl-duration-fast); }
+  
+  .gl-sidebar .gl-menu > li:has(> [aria-current])::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    inset-inline-start: calc(-0.5rem - 1px);
+    translate: calc(-50% * var(--gl-dir, 1)) -50%;
+    width: 0.375rem;
+    height: 0.375rem;
+    border-radius: 50%;
+    background: var(--gl-primary);
+    box-shadow: 0 0 8px var(--gl-primary);
+  }
+  
+  .gl-sidebar .gl-menu > li[data-dim] { opacity: 0.35; }
+  ::highlight(gl-match) { color: var(--gl-primary); }
+  
+  .gl-sidebar .gl-menu > li[data-drop="before"] { box-shadow: 0 -2px 0 var(--gl-primary); }
+  .gl-sidebar .gl-menu > li[data-drop="after"] { box-shadow: 0 2px 0 var(--gl-primary); }
+
+  
+  .gl-sidebar .gl-menu > li[data-tip]::after { display: none; }
+  .gl-sidebar[data-collapsed] .gl-menu > li[data-tip]::after {
+    display: block;
+    inset: 50% auto auto;
+    inset-inline-start: calc(100% + 0.75rem);
+    translate: calc(-0.25rem * var(--gl-dir, 1)) -50%;
+  }
+  .gl-sidebar[data-collapsed] .gl-menu > li[data-tip]:is(:hover, :focus-within)::after { opacity: 1; translate: 0 -50%; }
+  .gl-sidebar[data-collapsed] .gl-menu > li[data-tip][data-tip-off]::after { opacity: 0; }
+  .gl-sidebar[data-collapsed] .gl-menu-title { height: 1px; margin: 0.5rem 0.75rem; padding: 0; background: var(--gl-border); }
+  .gl-sidebar[data-collapsed] .gl-avatar-group > :not(:first-child) { display: none; }
+
+  
+  .gl-sidebar-handle {
+    position: absolute;
+    inset-block: 0;
+    inset-inline-end: -0.5rem;
+    width: 1rem;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: ew-resize;
+    touch-action: none;
+    outline: none;
+  }
+  .gl-sidebar-handle::before {
+    content: "";
+    position: absolute;
+    inset: calc(50% - 1rem) calc(50% - 2px);
+    border-radius: 9999px;
+    background: var(--gl-content);
+    opacity: 0;
+    transition: opacity var(--gl-duration-fast);
+  }
+  .gl-sidebar-handle:is(:hover, :focus-visible)::before { opacity: 0.8; }
+  .gl-sidebar-handle:focus-visible::before { background: var(--gl-primary); }
 }
 
 @layer components {
@@ -1170,7 +1320,7 @@
   @media print {
     :root, .gl-popover, .gl-toast { --frost-min: 5; }
     *, ::before, ::after { box-shadow: none !important; text-shadow: none !important; backdrop-filter: none !important; animation: none !important; }
-    .gl-dock, .gl-toast, .gl-dotgrid::before, .gl-streaks::after, .gl-aura::before, .gl-aura::after, .gl-flare { display: none !important; }
+    .gl-dock, .gl-toast, .gl-sidebar-handle, .gl-dotgrid::before, .gl-streaks::after, .gl-aura::before, .gl-aura::after, .gl-flare { display: none !important; }
   }
 
   
@@ -1186,14 +1336,14 @@
     .gl-tab:is([aria-selected="true"], [aria-current]), .gl-dock > [aria-current], .gl-menu > li > [aria-current] { outline: 2px solid Highlight; outline-offset: -2px; }
     .gl-step[data-done]::before, .gl-timeline > [data-done]::before { border-color: Highlight; background: Highlight; color: HighlightText; }
     .gl-btn-primary, .gl-btn-secondary, .gl-btn-success, .gl-btn-warning, .gl-btn-danger { border-color: ButtonText; }
-    .gl-alert, .gl-card, .gl-glass, .gl-stat, .gl-navbar, .gl-modal, .gl-drawer, .gl-popover { border-color: CanvasText; }
+    .gl-alert, .gl-card, .gl-glass, .gl-stat, .gl-navbar, .gl-modal, .gl-drawer, .gl-popover, .gl-widget, .gl-widget-pane { border-color: CanvasText; }
   }
 }
 
 @layer components {
-  .gl-glass-primary, .gl-aura-primary, .gl-flare-primary, .gl-btn-primary, .gl-link-primary, .gl-checkbox-primary, .gl-radio-primary, .gl-toggle-primary, .gl-range-primary, .gl-rating-primary, .gl-card-primary, .gl-badge-primary, .gl-status-primary, .gl-stat-primary, .gl-timeline-primary, .gl-alert-primary, .gl-progress-primary, .gl-radial-primary, .gl-orb-primary, .gl-step-primary, .gl-search-primary, .gl-navbar-primary, .gl-dock-primary, .gl-modal-primary, .gl-drawer-primary, .gl-popover-primary, .gl-mockup-window-primary { --c: var(--gl-primary); }
-  .gl-glass-secondary, .gl-aura-secondary, .gl-flare-secondary, .gl-btn-secondary, .gl-link-secondary, .gl-checkbox-secondary, .gl-radio-secondary, .gl-toggle-secondary, .gl-range-secondary, .gl-rating-secondary, .gl-card-secondary, .gl-badge-secondary, .gl-status-secondary, .gl-stat-secondary, .gl-timeline-secondary, .gl-alert-secondary, .gl-progress-secondary, .gl-radial-secondary, .gl-orb-secondary, .gl-step-secondary, .gl-search-secondary, .gl-navbar-secondary, .gl-dock-secondary, .gl-modal-secondary, .gl-drawer-secondary, .gl-popover-secondary, .gl-mockup-window-secondary { --c: var(--gl-secondary); }
-  .gl-glass-success, .gl-aura-success, .gl-flare-success, .gl-btn-success, .gl-link-success, .gl-checkbox-success, .gl-radio-success, .gl-toggle-success, .gl-range-success, .gl-rating-success, .gl-card-success, .gl-badge-success, .gl-status-success, .gl-stat-success, .gl-timeline-success, .gl-alert-success, .gl-progress-success, .gl-radial-success, .gl-orb-success, .gl-step-success, .gl-search-success, .gl-navbar-success, .gl-dock-success, .gl-modal-success, .gl-drawer-success, .gl-popover-success, .gl-mockup-window-success { --c: var(--gl-success); }
-  .gl-glass-warning, .gl-aura-warning, .gl-flare-warning, .gl-btn-warning, .gl-link-warning, .gl-checkbox-warning, .gl-radio-warning, .gl-toggle-warning, .gl-range-warning, .gl-rating-warning, .gl-card-warning, .gl-badge-warning, .gl-status-warning, .gl-stat-warning, .gl-timeline-warning, .gl-alert-warning, .gl-progress-warning, .gl-radial-warning, .gl-orb-warning, .gl-step-warning, .gl-search-warning, .gl-navbar-warning, .gl-dock-warning, .gl-modal-warning, .gl-drawer-warning, .gl-popover-warning, .gl-mockup-window-warning { --c: var(--gl-warning); }
-  .gl-glass-danger, .gl-aura-danger, .gl-flare-danger, .gl-btn-danger, .gl-link-danger, .gl-checkbox-danger, .gl-radio-danger, .gl-toggle-danger, .gl-range-danger, .gl-rating-danger, .gl-card-danger, .gl-badge-danger, .gl-status-danger, .gl-stat-danger, .gl-timeline-danger, .gl-alert-danger, .gl-progress-danger, .gl-radial-danger, .gl-orb-danger, .gl-step-danger, .gl-search-danger, .gl-navbar-danger, .gl-dock-danger, .gl-modal-danger, .gl-drawer-danger, .gl-popover-danger, .gl-mockup-window-danger { --c: var(--gl-danger); }
+  .gl-glass-primary, .gl-aura-primary, .gl-flare-primary, .gl-btn-primary, .gl-link-primary, .gl-checkbox-primary, .gl-radio-primary, .gl-toggle-primary, .gl-range-primary, .gl-rating-primary, .gl-card-primary, .gl-badge-primary, .gl-status-primary, .gl-stat-primary, .gl-timeline-primary, .gl-alert-primary, .gl-progress-primary, .gl-radial-primary, .gl-orb-primary, .gl-step-primary, .gl-search-primary, .gl-navbar-primary, .gl-dock-primary, .gl-modal-primary, .gl-drawer-primary, .gl-popover-primary, .gl-mockup-window-primary, .gl-widget-primary { --c: var(--gl-primary); }
+  .gl-glass-secondary, .gl-aura-secondary, .gl-flare-secondary, .gl-btn-secondary, .gl-link-secondary, .gl-checkbox-secondary, .gl-radio-secondary, .gl-toggle-secondary, .gl-range-secondary, .gl-rating-secondary, .gl-card-secondary, .gl-badge-secondary, .gl-status-secondary, .gl-stat-secondary, .gl-timeline-secondary, .gl-alert-secondary, .gl-progress-secondary, .gl-radial-secondary, .gl-orb-secondary, .gl-step-secondary, .gl-search-secondary, .gl-navbar-secondary, .gl-dock-secondary, .gl-modal-secondary, .gl-drawer-secondary, .gl-popover-secondary, .gl-mockup-window-secondary, .gl-widget-secondary { --c: var(--gl-secondary); }
+  .gl-glass-success, .gl-aura-success, .gl-flare-success, .gl-btn-success, .gl-link-success, .gl-checkbox-success, .gl-radio-success, .gl-toggle-success, .gl-range-success, .gl-rating-success, .gl-card-success, .gl-badge-success, .gl-status-success, .gl-stat-success, .gl-timeline-success, .gl-alert-success, .gl-progress-success, .gl-radial-success, .gl-orb-success, .gl-step-success, .gl-search-success, .gl-navbar-success, .gl-dock-success, .gl-modal-success, .gl-drawer-success, .gl-popover-success, .gl-mockup-window-success, .gl-widget-success { --c: var(--gl-success); }
+  .gl-glass-warning, .gl-aura-warning, .gl-flare-warning, .gl-btn-warning, .gl-link-warning, .gl-checkbox-warning, .gl-radio-warning, .gl-toggle-warning, .gl-range-warning, .gl-rating-warning, .gl-card-warning, .gl-badge-warning, .gl-status-warning, .gl-stat-warning, .gl-timeline-warning, .gl-alert-warning, .gl-progress-warning, .gl-radial-warning, .gl-orb-warning, .gl-step-warning, .gl-search-warning, .gl-navbar-warning, .gl-dock-warning, .gl-modal-warning, .gl-drawer-warning, .gl-popover-warning, .gl-mockup-window-warning, .gl-widget-warning { --c: var(--gl-warning); }
+  .gl-glass-danger, .gl-aura-danger, .gl-flare-danger, .gl-btn-danger, .gl-link-danger, .gl-checkbox-danger, .gl-radio-danger, .gl-toggle-danger, .gl-range-danger, .gl-rating-danger, .gl-card-danger, .gl-badge-danger, .gl-status-danger, .gl-stat-danger, .gl-timeline-danger, .gl-alert-danger, .gl-progress-danger, .gl-radial-danger, .gl-orb-danger, .gl-step-danger, .gl-search-danger, .gl-navbar-danger, .gl-dock-danger, .gl-modal-danger, .gl-drawer-danger, .gl-popover-danger, .gl-mockup-window-danger, .gl-widget-danger { --c: var(--gl-danger); }
 }

@@ -24,6 +24,22 @@ struct GalleryContent: View {
     @State private var on = true
     @State private var volume = 0.6
     @State private var tab = 0
+    @State private var page: String? = "Home"
+    @State private var folded = false
+    @State private var menu: [SidebarSection]? // nil until a row is dragged; then the order the user left
+
+    private var defaultMenu: [SidebarSection] {
+        [SidebarSection("Pinned", items: [
+            SidebarItem("Home", systemImage: "house"),
+            SidebarItem("Inbox", systemImage: "bell", badge: "4", hint: "Inbox · 4 new"),
+        ]),
+         SidebarSection("Library", items: [
+            SidebarItem("Photos", systemImage: "photo"),
+            SidebarItem("Places", systemImage: "mappin.and.ellipse"),
+            SidebarItem("Sync", systemImage: "bolt", hint: "Sync · 3 running", isOn: $on),
+            SidebarItem("Analytics", systemImage: "chart.xyaxis.line"),
+        ])]
+    }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 28) {
@@ -70,6 +86,18 @@ struct GalleryContent: View {
                 .labelsHidden()
             }
 
+            section("Sidebar") {
+                Sidebar(sections: Binding { menu ?? defaultMenu } set: { menu = $0 }, selection: $page, collapsed: $folded) {
+                    HStack(spacing: 12) { Avatar("G", size: 32); Text("Glimmer").fontWeight(.semibold); Badge("Pro") }
+                } footer: {
+                    HStack(spacing: 12) {
+                        Avatar("AK", size: 32)
+                        VStack(alignment: .leading, spacing: 2) { Text("Aiden Kerr"); Text(verbatim: "aiden@example.com").metaStyle() }
+                    }
+                }
+                .frame(height: 440)
+            }
+
             section("Cards & stats") {
                 GroupBox {
                     Text("Any view can be a glass surface with .glass().").foregroundStyle(Tokens.muted)
@@ -87,6 +115,19 @@ struct GalleryContent: View {
                     Stat("Revenue", value: "$48,210", caption: "↑ 12% vs last month")
                     Stat("Uptime", value: "99.98%", caption: "30 day rolling", tint: Tokens.success)
                 }
+            }
+
+            section("Widget") {
+                HStack(spacing: 40) {
+                    ForEach([false, true], id: \.self) { tilted in
+                        Widget("Night walk", eyebrow: "Photo of the day", subtitle: "Shibuya, after the rain", tilted: tilted) {
+                            LinearGradient(colors: [Tokens.secondary, Tokens.primary], startPoint: .top, endPoint: .bottom)
+                                .overlay(Image(systemName: "building.2.fill").font(.system(size: 64)).foregroundStyle(.white.opacity(0.85)))
+                        }
+                        .frame(width: 260)
+                    }
+                }
+                .padding(.vertical, 30)
             }
 
             section("Feedback") {

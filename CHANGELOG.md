@@ -4,6 +4,14 @@ Every release of Glimmer, newest first. The docs site shows this file at glimmer
 Each entry is a `## version · date` heading followed by a flat list. Start a line with
 `Docs:` or `Swift:` when the change is not in the web kit.
 
+## Unreleased
+
+- Sidebar: a column of menus that folds to a rail of icons, with search (⌘K), rows you can drag between lists, and a handle on its edge. Needs `behaviors.js`.
+- Swift: `Sidebar`, the same thing in SwiftUI: bind your sections, the selection and whether it is folded.
+- Menu rows can be a `<label>`, so a row can hold a toggle.
+- Widget: a thick glass slab with a clear pane lifted off its top for a picture, and a caption below. `widget-tilt` lays it back in perspective.
+- Swift: `Widget`, the same slab in SwiftUI, with `thickness`, `lift` and `tilted`.
+
 ## 0.1.0 · 2026-11-25
 
 - First public version: glass surfaces, five frost levels, and component classes in plain CSS, usable alone or after Tailwind CSS v4.

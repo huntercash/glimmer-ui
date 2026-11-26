@@ -33,8 +33,9 @@
   /* The signature surface. Every glass component is in this list so the recipe lives in one place.
      --c tints the inner light; --px/--py place it (glow.js moves them to the pointer on `.glow` surfaces).
      They are declared here, not read with fallbacks, so a nested surface never inherits its parent's. */
-  :where(.glass, .card, .search, .navbar, .dock, .alert, .stat, .modal, .drawer, .popover, .mockup-window) {
+  :where(.glass, .card, .search, .navbar, .dock, .alert, .stat, .modal, .drawer, .popover, .mockup-window, .widget, .widget-pane) {
     --c: var(--gl-secondary);
+    --depth: 0 0 #0000; /* extra outer shadows: the widget uses it for its thickness */
     --px: 72%;
     --py: 88%;
     --n: calc(clamp(var(--frost-min, 1), var(--frost, 3), 5) - 1); /* level, counted from 0; --frost-min is a floor */
@@ -65,6 +66,7 @@
       inset 1.5px -1.5px 1px -0.5px rgb(255 255 255 / calc(var(--r) * 0.65)),
       inset -8px 8px 12px -8px color-mix(in oklab, var(--gl-secondary) calc(var(--r) * 90%), transparent),
       inset 8px -8px 12px -8px color-mix(in oklab, var(--gl-primary) calc(var(--r) * 90%), transparent),
+      var(--depth),
       0 14px 40px -14px rgb(0 0 0 / var(--gl-shadow)),
       0 10px 70px -22px color-mix(in oklab, var(--c) calc(var(--l) * 100%), transparent);     /* halo spilling onto the page */
     color: var(--gl-content);
@@ -140,7 +142,7 @@
 
   /* Reduced motion: the kit's own animations play once and stop. Your page's animations are left alone. */
   @media (prefers-reduced-motion: reduce) {
-    :is(.spinner, .skeleton, .shimmer, .toast > *, .modal, .drawer, .popover, .btn, .orb, .aura),
+    :is(.spinner, .skeleton, .shimmer, .toast > *, .modal, .drawer, .popover, .btn, .orb, .aura, .sidebar, .widget),
     :is(.btn, .orb, .aura)::before, .aura::after {
       animation-duration: 0.01ms !important;
       animation-iteration-count: 1 !important;

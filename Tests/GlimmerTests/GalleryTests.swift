@@ -51,6 +51,33 @@ final class GalleryTests: XCTestCase {
         XCTAssertEqual(averaged[1].close, 13.5)
     }
 
+    /// Dragging and nudging sidebar rows, and the search match, with the same cases the web kit was checked against.
+    func testSidebarRowsMoveAndMatch() throws {
+        let menu = [SidebarSection("Pinned", items: ["Home", "Inbox"].map { SidebarItem($0, systemImage: "circle") }),
+                    SidebarSection("Library", items: ["Photos", "Places", "Sync"].map { SidebarItem($0, systemImage: "circle") })]
+        func order(_ sections: [SidebarSection]) -> String { sections.map { $0.items.map(\.id).joined(separator: ",") }.joined(separator: " | ") }
+
+        XCTAssertEqual(order(menu.moving("Places", to: 0, before: "Inbox")), "Home,Places,Inbox | Photos,Sync")
+        XCTAssertEqual(order(menu.moving("Home", to: 1, before: nil)), "Inbox | Photos,Places,Sync,Home")
+        XCTAssertEqual(order(menu.moving("Home", to: 0, before: "Home")), order(menu), "dropping a row on itself changes nothing")
+        XCTAssertEqual(order(menu.moving("Nope", to: 0, before: nil)), order(menu))
+
+        XCTAssertEqual(order(menu.nudging("Photos", by: -1)), "Home,Inbox,Photos | Places,Sync", "up out of a section lands at the end of the one above")
+        XCTAssertEqual(order(menu.nudging("Inbox", by: 1)), "Home | Inbox,Photos,Places,Sync", "down out of a section lands at the start of the one below")
+        XCTAssertEqual(order(menu.nudging("Photos", by: 1)), "Home,Inbox | Places,Photos,Sync")
+        XCTAssertEqual(order(menu.nudging("Places", by: 1)), "Home,Inbox | Photos,Sync,Places")
+        XCTAssertEqual(order(menu.nudging("Sync", by: -1)), "Home,Inbox | Photos,Sync,Places")
+        XCTAssertEqual(order(menu.nudging("Home", by: -1)), order(menu))
+        XCTAssertEqual(order(menu.nudging("Sync", by: 1)), order(menu))
+
+        let item = SidebarItem("Analytics", systemImage: "chart.xyaxis.line")
+        XCTAssertNil(item.label(matching: "zz"))
+        XCTAssertNil(try XCTUnwrap(item.label(matching: "")).runs.first?.foregroundColor, "an empty search lights nothing")
+        let lit = try XCTUnwrap(item.label(matching: "AN")).runs.filter { $0.foregroundColor != nil }
+        XCTAssertEqual(lit.count, 1)
+        XCTAssertEqual(lit.first.map { $0.range.lowerBound == item.label(matching: "")!.startIndex }, true, "only the first match is lit")
+    }
+
     @MainActor
     func testGalleryRenders() throws {
         // Default frost, and clear glass (a different drawing path: no material, edge reflections on).

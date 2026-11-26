@@ -180,10 +180,10 @@ import { Chart, Tabs, Modal, toast } from "@glimmer-ui-core/glimmer/react";
 | Surface | Glass, Frost, Aura, Dot grid, Streaks, Flare, Meta |
 | Actions | Button, Join, Link, Swap |
 | Data input | Text input, Field, Fieldset, Textarea, Select, Checkbox, Radio, Toggle, Range, File input, Search, Rating, Kbd |
-| Data display | Card, Badge, Status, Avatar, Stat, Table, List, Timeline, Accordion, Chat bubble, Divider, Indicator, Stack, Carousel |
+| Data display | Card, Widget, Badge, Status, Avatar, Stat, Table, List, Timeline, Accordion, Chat bubble, Divider, Indicator, Stack, Carousel |
 | Feedback | Alert, Toast, Tooltip, Progress, Radial progress, Spinner, Orb, Shimmer, Skeleton |
 | Charts | Line, Area, Bar, Scatter, Histogram, Box plot, Heatmap, Pie and donut, Sparkline, Radar, Candlestick, OHLC, RSI, MACD, Chord diagram |
-| Navigation | Navbar, Tabs, Breadcrumbs, Menu, Steps, Dock, Pagination |
+| Navigation | Navbar, Tabs, Breadcrumbs, Menu, Sidebar, Steps, Dock, Pagination |
 | Overlay | Modal, Drawer, Popover |
 | Layout | Hero, Footer |
 | Mockup | Code, Window, Phone |
@@ -217,7 +217,7 @@ VStack(spacing: 16) {
 .glimmerFrost(2)     // 1 clear … 5 milky
 ```
 
-It includes `.glass()` for any view, button and card styles, `SearchField`, `MenuRow`, `Badge`, `StatusDot`, `Avatar`, `Banner`, `Stat`, `Bubble`, `Orb`, `Flare`, a theme for Swift Charts (`.glimmerChartStyle()`), and `StockChart`, `RSIChart`, `MACDChart`, `RadarChart` and `ChordDiagram`. Toggle, Slider, Picker, sheets and the other system controls stay native; the theme tints them. Put `GlimmerGallery()` in an Xcode preview to see everything.
+It includes `.glass()` for any view, button and card styles, `SearchField`, `MenuRow`, `Sidebar`, `Widget`, `Badge`, `StatusDot`, `Avatar`, `Banner`, `Stat`, `Bubble`, `Orb`, `Flare`, a theme for Swift Charts (`.glimmerChartStyle()`), and `StockChart`, `RSIChart`, `MACDChart`, `RadarChart` and `ChordDiagram`. Toggle, Slider, Picker, sheets and the other system controls stay native; the theme tints them. Put `GlimmerGallery()` in an Xcode preview to see everything.
 
 ## Accessibility and platform support
 
